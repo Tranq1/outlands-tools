@@ -1,0 +1,65 @@
+<h4>Effective mana</h4>
+
+<mat-accordion multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Mana Regen Tick Rate</mat-panel-title>
+      <mat-panel-description>{{mediBaseManaRegFactor$ | async}} Mana/sec</mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- Content: -->
+    <div>Base rate: 0.5 Mana/sec</div>
+    <div>Meditation: Base Rate * {{mediSkill$ | async}} / 100</div>
+    <div>Chain Link Bonus: Base Rate * {{100 / 100 * (1 - 0.1)}} </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Mana Regen Bonus Ticks</mat-panel-title>
+      <mat-panel-description>110% per Tick</mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- Content: -->
+    <div class="detail">
+      <div class="source">
+        Delectable Food
+      </div>
+      <div class="bonus">
+        25% Chance
+      </div>
+      <div class="formula">Food Level * 5%</div>
+    </div>
+    <div>Taste ID: Food Tick * value </div>
+    <div>Meditation: Base Rate * value / 100</div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Effective Mana Refund Chance</mat-panel-title>
+      <mat-panel-description>50%</mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- Content: -->
+    <div>Aspect: 15% Chance</div>
+    <div>Mana Drain: 20% Chance </div>
+    <div>Spellbook: 15% Chance</div>
+    <div>Effective Chance: (1 + total chance / 100) * (1 + (total chance / 100)²)</div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Additional Mana Sources</mat-panel-title>
+      <mat-panel-description>61 Mana / min</mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- Content: -->
+    <div>Magic Mushroom: 25 Mana / min</div>
+    <div>Void Armor Regen: 36 Mana / min</div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Total Effective Mana / sec</mat-panel-title>
+      <mat-panel-description>3.1 (183 Mana / min)</mat-panel-description>
+    </mat-expansion-panel-header>
+    <!-- Content: -->
+    <div>Mana Regen Tick Rate * Mana Regen Tick Bonus * Effective Mana Refund Chance + Additional Mana Sources *
+      Effective Mana Refund Chance</div>
+  </mat-expansion-panel>
+</mat-accordion>

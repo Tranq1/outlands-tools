@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 import { Skill } from 'src/app/data/skills.enum';
 import { TemplateSkill } from 'src/app/interfaces/skill';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { RootState } from 'src/app/store';
 import { SubSink } from 'subsink';
 import {
   addSkillAction,
   removeSkillAction,
 } from '../state/actions/template.actions';
+import { selectSkills } from '../state/reducers/template.reducer';
 
 @Component({
   selector: 'app-skill-picker',
@@ -24,8 +24,8 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
     value: 100,
   });
 
-  readonly pickedSkills$: Observable<TemplateSkill[]> = this.store.select(
-    (s) => s.template.skills
+  readonly pickedSkills$: Observable<TemplateSkill[]> = this.store.pipe(
+    select(selectSkills),
   );
 
   readonly pickableSkills$ = this.pickedSkills$.pipe(
@@ -39,7 +39,7 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
 
   readonly addSkillSubject = new Subject<TemplateSkill>();
 
-  constructor(private fb: FormBuilder, private store: Store<RootState>) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.subsink.add(

@@ -1,4 +1,11 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import {
+  Action,
+  createFeature,
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on,
+} from '@ngrx/store';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import { addSkillAction, removeSkillAction } from '../actions/template.actions';
 
@@ -22,4 +29,11 @@ export const reducer = createReducer(
     ...state,
     skills: state.skills.filter((skill) => skill.name != skillName),
   }))
+);
+
+export const selectFeature =
+  createFeatureSelector<TemplateBuilderState>(templateFeatureKey);
+export const selectSkills = createSelector(
+  selectFeature,
+  (state) => state.skills
 );

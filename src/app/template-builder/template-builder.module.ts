@@ -6,9 +6,22 @@ import * as fromTemplate from './state/reducers/template.reducer';
 import { StatsPickerComponent } from './stats-picker/stats-picker.component';
 import { MaterialModule } from '../modules/material.module';
 import { SharedModule } from '../modules/shared.module';
+import { AspectPickerComponent } from './aspect-picker/aspect-picker.component';
+import { MasteryPickerComponent } from './mastery-picker/mastery-picker.component';
+import { EquipmentPickerComponent } from './equipment-picker/equipment-picker.component';
+import { ManaCalculatorComponent } from './mana-calculator/mana-calculator.component';
+
+const EXPORTED_COMPONENTS = [
+  SkillPickerComponent,
+  StatsPickerComponent,
+  AspectPickerComponent,
+  MasteryPickerComponent,
+  EquipmentPickerComponent,
+  ManaCalculatorComponent,
+];
 
 @NgModule({
-  declarations: [SkillPickerComponent, StatsPickerComponent],
+  declarations: [...EXPORTED_COMPONENTS],
   imports: [
     CommonModule,
     StoreModule.forFeature(
@@ -18,6 +31,6 @@ import { SharedModule } from '../modules/shared.module';
     MaterialModule,
     SharedModule,
   ],
-  exports: [SkillPickerComponent],
+  exports: [...EXPORTED_COMPONENTS],
 })
 export class TemplateBuilderModule {}
