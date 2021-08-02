@@ -1,0 +1,12 @@
+div.content {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+mat-form-field {
+  width: 50px;
+}

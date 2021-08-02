@@ -1,5 +1,12 @@
 .layout-container {
   display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-columns: 23% 23% 23% 23%;
   row-gap: 20px;
+  column-gap: 20px;
+
+  & > div {
+    background-color: white;
+    border-radius: 5px;
+    padding: 12px;
+  }
 }
