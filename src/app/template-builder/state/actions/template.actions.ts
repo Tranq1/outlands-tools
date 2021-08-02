@@ -8,7 +8,7 @@ export const addSkillAction = createAction(
 );
 export const removeSkillAction = createAction(
   '[Template Skill] Remove Skill',
-  props<{ skill: Skill }>()
+  props<{ skillName: string }>()
 );
 export const updateSkillValueAction = createAction(
   '[Template Skill] Update Skill',

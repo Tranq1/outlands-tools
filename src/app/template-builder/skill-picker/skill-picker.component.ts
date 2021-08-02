@@ -4,10 +4,13 @@ import { Store } from '@ngrx/store';
 import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
 import { Skill } from 'src/app/data/skills.enum';
 import { TemplateSkill } from 'src/app/interfaces/skill';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { RootState } from 'src/app/store';
 import { SubSink } from 'subsink';
-import { addSkillAction } from '../state/actions/template.actions';
+import {
+  addSkillAction,
+  removeSkillAction,
+} from '../state/actions/template.actions';
 
 @Component({
   selector: 'app-skill-picker',
@@ -17,7 +20,8 @@ import { addSkillAction } from '../state/actions/template.actions';
 export class SkillPickerComponent implements OnInit, OnDestroy {
   readonly subsink = new SubSink();
   readonly form = this.fb.group({
-    pickedSkill: null,
+    name: null,
+    value: 100,
   });
 
   readonly pickedSkills$: Observable<TemplateSkill[]> = this.store.select(
@@ -33,22 +37,21 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
     share()
   );
 
-  readonly skillPicked$: Observable<Skill> = this.form
-    .get('pickedSkill')!
-    .valueChanges.pipe(distinctUntilChanged());
+  readonly addSkillSubject = new Subject<TemplateSkill>();
 
   constructor(private fb: FormBuilder, private store: Store<RootState>) {}
 
   ngOnInit(): void {
     this.subsink.add(
-      this.skillPicked$.subscribe((pickedSkill) => {
+      this.addSkillSubject.asObservable().subscribe((pickedSkill) => {
+        console.log(pickedSkill);
         this.form.get('pickedSkill')?.setValue(null, { emitEvent: false });
         this.store.dispatch(
           addSkillAction({
             skill: {
-              display: Skill[pickedSkill as keyof typeof Skill],
-              name: pickedSkill,
-              value: 100,
+              display: Skill[pickedSkill.name as keyof typeof Skill],
+              name: pickedSkill.name,
+              value: pickedSkill.value,
             },
           })
         );
@@ -57,6 +60,14 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
+
+  public onAddClicked(): void {
+    this.addSkillSubject.next(this.form.value);
+  }
+
+  public onRemoveClicked(skillName: string): void {
+    this.store.dispatch(removeSkillAction({ skillName }));
+  }
 
   private GetSkillEntries(): { key: string; display: string }[] {
     return Object.entries(Skill).map(([key, display]) => ({ key, display }));

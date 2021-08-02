@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { TemplateSkill } from 'src/app/interfaces/skill';
-import { addSkillAction } from '../actions/template.actions';
+import { addSkillAction, removeSkillAction } from '../actions/template.actions';
 
 export const templateFeatureKey = 'template';
 
@@ -17,5 +17,9 @@ export const reducer = createReducer(
   on(addSkillAction, (state, { skill }) => ({
     ...state,
     skills: [...state.skills, skill],
+  })),
+  on(removeSkillAction, (state, { skillName }) => ({
+    ...state,
+    skills: state.skills.filter((skill) => skill.name != skillName),
   }))
 );
