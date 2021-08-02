@@ -107,5 +107,8 @@
       }
     }
   },
-  "defaultProject": "outlands-tools"
+  "defaultProject": "outlands-tools",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }
