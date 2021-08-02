@@ -1,4 +1,4 @@
-interface SKill {
+interface TemplateSKill {
   name: string;
   value: number;
 }
