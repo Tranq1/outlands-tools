@@ -1,4 +1,4 @@
-enum Skills {
+export enum Skill {
   //Combat
   Anatomy = 'Anatomy',
   Archery = 'Archery',

@@ -1,3 +1,14 @@
+<ng-container [formGroup]="form">
+  <h4>Select a skill</h4>
+  <mat-form-field>
+    <mat-select formControlName="pickedSkill">
+      <mat-option [value]="null">Pick a skill</mat-option>
+      <mat-option *ngFor="let option of pickableSkills$ | async"
+                  [value]="option.key">{{option.display}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
+
 <table>
   <thead>
     <tr>
@@ -6,9 +17,9 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Magery</td>
-      <td>100</td>
+    <tr *ngFor="let skill of pickedSkills$ | async">
+      <td>{{skill.display}}</td>
+      <td>{{skill.value}}</td>
     </tr>
   </tbody>
 </table>

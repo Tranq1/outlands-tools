@@ -11,10 +11,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~12.1.2",
+    "@angular/cdk": "^12.1.4",
     "@angular/common": "~12.1.2",
     "@angular/compiler": "~12.1.2",
     "@angular/core": "~12.1.2",
     "@angular/forms": "~12.1.2",
+    "@angular/material": "^12.1.4",
     "@angular/platform-browser": "~12.1.2",
     "@angular/platform-browser-dynamic": "~12.1.2",
     "@angular/router": "~12.1.2",
@@ -23,6 +25,7 @@
     "@ngrx/store-devtools": "^12.3.0",
     "angular-oauth2-oidc": "^12.0.0",
     "rxjs": "~6.6.0",
+    "subsink": "^1.0.2",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
