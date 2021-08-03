@@ -25,7 +25,7 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
   });
 
   readonly pickedSkills$: Observable<TemplateSkill[]> = this.store.pipe(
-    select(selectSkills),
+    select(selectSkills)
   );
 
   readonly pickableSkills$ = this.pickedSkills$.pipe(
@@ -44,8 +44,7 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subsink.add(
       this.addSkillSubject.asObservable().subscribe((pickedSkill) => {
-        console.log(pickedSkill);
-        this.form.get('pickedSkill')?.setValue(null, { emitEvent: false });
+        this.form.patchValue({ name: null }, { emitEvent: false });
         this.store.dispatch(
           addSkillAction({
             skill: {

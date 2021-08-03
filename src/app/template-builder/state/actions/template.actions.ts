@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Skill as Skill } from 'src/app/data/skills.enum';
+import { CharAspect } from 'src/app/interfaces/aspect';
 import { CharStats } from 'src/app/interfaces/char-stats';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 
@@ -18,4 +19,8 @@ export const updateSkillValueAction = createAction(
 export const updateStatsAction = createAction(
   '[Template Stats] Update Stats',
   props<{ stats: CharStats }>()
+);
+export const updateAspectsAction = createAction(
+  '[Template Aspects] Update Aspects',
+  props<{ aspects: CharAspect }>()
 );

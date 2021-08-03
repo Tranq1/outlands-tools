@@ -1,18 +1,18 @@
 export enum AspectType {
-  None,
-  Air,
-  Artisan,
-  Blood,
-  Command,
-  Earth,
-  Fortune,
-  Lyric,
-  Poison,
-  Shadow,
-  Water,
-  Fire,
-  Void,
-  Eldritch,
+  None = 'none',
+  Air = 'air',
+  Artisan = 'artisan',
+  Blood = 'blood',
+  Command = 'command',
+  Earth = 'earth',
+  Fortune = 'fortune',
+  Lyric = 'lyric',
+  Poison = 'poison',
+  Shadow = 'shadow',
+  Water = 'water',
+  Fire = 'fire',
+  Void = 'void',
+  Eldritch = 'eldritch',
 }
 
 export enum AspectSlot {
@@ -27,5 +27,5 @@ export interface Aspect {
 }
 
 export type CharAspect = {
-    [loc in AspectSlot]: Aspect | null;
+  [loc in AspectSlot]: Aspect | null;
 };

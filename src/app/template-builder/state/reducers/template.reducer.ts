@@ -6,13 +6,14 @@ import {
   createSelector,
   on,
 } from '@ngrx/store';
-import { CharAspect } from 'src/app/interfaces/aspect';
+import { AspectType, CharAspect } from 'src/app/interfaces/aspect';
 import { ActiveBuffValue } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import {
   addSkillAction,
   removeSkillAction,
+  updateAspectsAction,
   updateStatsAction,
 } from '../actions/template.actions';
 
@@ -28,7 +29,11 @@ export interface TemplateBuilderState {
 export const initialState: TemplateBuilderState = {
   skills: [],
   stats: { str: 25, dex: 25, int: 25 },
-  aspects: { armor: null, spellbook: null, weapon: null },
+  aspects: {
+    armor: { type: AspectType.None, level: 0 },
+    weapon: { type: AspectType.None, level: 0 },
+    spellbook: { type: AspectType.None, level: 0 },
+  },
   buffs: [],
 };
 
@@ -42,7 +47,8 @@ export const reducer = createReducer(
     ...state,
     skills: state.skills.filter((skill) => skill.name != skillName),
   })),
-  on(updateStatsAction, (state, { stats }) => ({ ...state, stats }))
+  on(updateStatsAction, (state, { stats }) => ({ ...state, stats })),
+  on(updateAspectsAction, (state, { aspects }) => ({ ...state, aspects })),
 );
 
 export const selectTemplateState =
