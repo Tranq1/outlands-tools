@@ -10,6 +10,7 @@ import { AspectPickerComponent } from './aspect-picker/aspect-picker.component';
 import { MasteryPickerComponent } from './mastery-picker/mastery-picker.component';
 import { EquipmentPickerComponent } from './equipment-picker/equipment-picker.component';
 import { ManaCalculatorComponent } from './mana-calculator/mana-calculator.component';
+import { BuffPickerComponent } from './buff-picker/buff-picker.component';
 
 const EXPORTED_COMPONENTS = [
   SkillPickerComponent,
@@ -18,6 +19,7 @@ const EXPORTED_COMPONENTS = [
   MasteryPickerComponent,
   EquipmentPickerComponent,
   ManaCalculatorComponent,
+  BuffPickerComponent,
 ];
 
 @NgModule({
