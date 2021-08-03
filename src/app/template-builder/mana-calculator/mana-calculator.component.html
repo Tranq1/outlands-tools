@@ -4,12 +4,28 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Mana Regen Tick Rate</mat-panel-title>
-      <mat-panel-description>{{mediBaseManaRegFactor$ | async}} Mana/sec</mat-panel-description>
+      <mat-panel-description>1 tick every {{totalManaRegTicksPerSecond$ | async | number:'1.2-2'}} seconds</mat-panel-description>
     </mat-expansion-panel-header>
     <!-- Content: -->
     <div>Base rate: 0.5 Mana/sec</div>
-    <div>Meditation: Base Rate * {{mediSkill$ | async}} / 100</div>
-    <div>Chain Link Bonus: Base Rate * {{100 / 100 * (1 - 0.1)}} </div>
+    <div class="detail">
+      <div class="source">
+        Meditation
+      </div>
+      <div class="bonus">
+        {{1 / (mediBaseManaRegFactor$ | async)! }} Mana / second
+      </div>
+      <div class="formula">Base Rate * value / 100</div>
+    </div>
+    <div class="detail">
+      <div class="source">
+        Aspect Armor Bonus
+      </div>
+      <div class="bonus">
+        {{ (airAspectArmorBonus$ | async)! * 100 }} %
+      </div>
+      <div class="formula">5% + level * 1,5%</div>
+    </div>
   </mat-expansion-panel>
 
   <mat-expansion-panel>

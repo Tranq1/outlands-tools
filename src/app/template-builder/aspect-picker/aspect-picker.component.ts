@@ -26,8 +26,6 @@ export class AspectPickerComponent implements OnInit, OnDestroy {
   );
 
   readonly aspectChanged$ = this.aspectForm.valueChanges.pipe(
-    tap(console.log),
-    debounceTime(1000)
   );
 
   readonly aspectList = Object.entries(AspectType).map(([display, value]) => ({
