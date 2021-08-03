@@ -1,25 +1,35 @@
 <h4>Select your stats</h4>
 
-<div class="content">
+<div class="content"
+     [formGroup]="form">
   <div>
     <div>Str</div>
     <mat-form-field>
       <input matInput
-             type="number">
+             type="number"
+             formControlName="str"
+             min="10"
+             max="125">
     </mat-form-field>
   </div>
   <div>
     <div>Dex</div>
     <mat-form-field>
       <input matInput
-             type="number">
+             type="number"
+             formControlName="dex"
+             min="10"
+             max="125">
     </mat-form-field>
   </div>
   <div>
     <div>Int</div>
     <mat-form-field>
       <input matInput
-             type="number">
+             type="number"
+             formControlName="int"
+             min="10"
+             max="125">
     </mat-form-field>
   </div>
 </div>

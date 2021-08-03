@@ -15,13 +15,17 @@ export enum AspectType {
   Eldritch,
 }
 
+export enum AspectSlot {
+  Armor = 'armor',
+  Weapon = 'weapon',
+  Spellbook = 'spellbook',
+}
+
 export interface Aspect {
   type: AspectType;
   level: number;
 }
 
-export interface CharAspect {
-  armor?: Aspect;
-  weapon?: Aspect;
-  spellbook?: Aspect;
-}
+export type CharAspect = {
+    [loc in AspectSlot]: Aspect | null;
+};

@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { Skill } from 'src/app/data/skills.enum';
 import { RootState } from 'src/app/store';
-import { selectFeature as selectTemplate } from '../state/reducers/template.reducer';
+import { selectTemplateState as selectTemplate } from '../state/reducers/template.reducer';
 
 @Component({
   selector: 'app-mana-calculator',

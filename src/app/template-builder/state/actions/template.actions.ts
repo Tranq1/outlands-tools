@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Skill as Skill } from 'src/app/data/skills.enum';
+import { CharStats } from 'src/app/interfaces/char-stats';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 
 export const addSkillAction = createAction(
@@ -12,5 +13,9 @@ export const removeSkillAction = createAction(
 );
 export const updateSkillValueAction = createAction(
   '[Template Skill] Update Skill',
-  props<{ skill: Skill, value: number }>()
+  props<{ skill: Skill; value: number }>()
+);
+export const updateStatsAction = createAction(
+  '[Template Stats] Update Stats',
+  props<{ stats: CharStats }>()
 );
