@@ -9,7 +9,7 @@ export interface BuffInfo {
   display: string;
   source: string;
   possibleValues: number[] | NumberRange;
-  bonus: (value: number) => number;
+  bonus: (value: number, ...additionalValues: number[]) => number;
 }
 
 export interface NumberRange {
@@ -29,16 +29,16 @@ export class Buffs {
     return BUFF_LIST.find((b) => b.type === type)!;
   }
 
-  static GetBuffBonus(activeBuff: ActiveBuffValue): number {
+  static GetBuffBonus(activeBuff: ActiveBuffValue, ...additionalValues: any[]): number {
     var buff = this.GetBuffInfo(activeBuff.type);
-    return buff.bonus(activeBuff.value);
+    return buff.bonus(activeBuff.value, ...additionalValues);
   }
 }
 
 const BUFF_LIST: BuffInfo[] = [
   {
     type: BuffType.FoodManaReg,
-    bonus: (tier) => 0.05 * tier,
+    bonus: (tier, foodBonus) => 0.05 * tier + 0.25 * (foodBonus / 100),
     display: 'Food Mana Regen Double Chance',
     possibleValues: [1, 2, 3, 4, 5],
     source: 'food',

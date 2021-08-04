@@ -4,7 +4,8 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Mana Regen Tick Rate</mat-panel-title>
-      <mat-panel-description>1 tick every {{totalManaRegTicksPerSecond$ | async | number:'1.2-2'}} seconds</mat-panel-description>
+      <mat-panel-description>1 tick every {{totalManaRegTicksPerSecond$ | async | number:'1.2-2'}} seconds
+      </mat-panel-description>
     </mat-expansion-panel-header>
     <!-- Content: -->
     <div>Base rate: 0.5 Mana/sec</div>
@@ -30,21 +31,28 @@
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Mana Regen Bonus Ticks</mat-panel-title>
-      <mat-panel-description>110% per Tick</mat-panel-description>
+      <mat-panel-title>Average bonus Mana per tick</mat-panel-title>
+      <mat-panel-description>{{totalTickBonus$ | async}}</mat-panel-description>
     </mat-expansion-panel-header>
     <!-- Content: -->
     <div class="detail">
       <div class="source">
-        Delectable Food
+        Pure Food Bonus
       </div>
       <div class="bonus">
-        25% Chance
+        {{ ((foodBuff$ | async)?.value ?? 0) * 5 }}%
       </div>
       <div class="formula">Food Level * 5%</div>
     </div>
-    <div>Taste ID: Food Tick * value </div>
-    <div>Meditation: Base Rate * value / 100</div>
+    <div class="detail">
+      <div class="source">
+        Food Bonus with Taste ID
+      </div>
+      <div class="bonus">
+        {{ ((foodBuffBonus$ | async) ?? 0) * 100}}%
+      </div>
+      <div class="formula">(food bonus) + 25% * tasteId / 100</div>
+    </div>
   </mat-expansion-panel>
 
   <mat-expansion-panel>

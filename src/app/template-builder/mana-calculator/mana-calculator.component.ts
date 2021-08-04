@@ -4,6 +4,7 @@ import { combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Skill } from 'src/app/data/skills.enum';
 import { AspectType } from 'src/app/interfaces/aspect';
+import { Buffs, BuffType } from 'src/app/interfaces/buffs';
 import { RootState } from 'src/app/store';
 import { selectTemplateState } from '../state/reducers/template.reducer';
 
@@ -13,13 +14,13 @@ import { selectTemplateState } from '../state/reducers/template.reducer';
   styleUrls: ['./mana-calculator.component.scss'],
 })
 export class ManaCalculatorComponent implements OnInit {
+  // Mana regen tick rate
   readonly mediSkill$ = this.store.pipe(
     select(selectTemplateState),
     map((t) => t.skills.find((s) => s.name == Skill.Meditation)?.value ?? 0)
   );
   readonly mediBaseManaRegFactor$ = this.mediSkill$.pipe(
     select((skillValue) => 2 - skillValue / 100),
-    tap(console.log)
   );
   readonly airAspectArmor$ = this.store.pipe(
     select(selectTemplateState),
@@ -33,6 +34,30 @@ export class ManaCalculatorComponent implements OnInit {
     this.mediBaseManaRegFactor$,
     this.airAspectArmorBonus$,
   ]).pipe(map(([baseManaReg, airAspectBonus]) => baseManaReg - airAspectBonus));
+
+  // Mana regen bonus ticks
+  readonly tasteIdSkill$ = this.store.pipe(
+    select(selectTemplateState),
+    map((t) => t.skills.find((s) => s.name == Skill.TasteId)?.value ?? 0),
+  );
+  readonly foodBuff$ = this.store.pipe(
+    select(selectTemplateState),
+    select((s) => s.buffs),
+    map((buffs) =>
+      buffs.find((b) => b.active && b.type == BuffType.FoodManaReg)
+    )
+  );
+  readonly foodBuffBonus$ = combineLatest([
+    this.tasteIdSkill$,
+    this.foodBuff$,
+  ]).pipe(
+    map(([tasteIdSkill, foodBuff]) => {
+      if (foodBuff == null) return null;
+      var buffBonus = Buffs.GetBuffBonus(foodBuff, tasteIdSkill);
+      return buffBonus;
+    })
+  );
+  readonly totalTickBonus$ = this.foodBuffBonus$.pipe();
 
   constructor(private store: Store<RootState>) {}
 

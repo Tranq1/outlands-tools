@@ -147,7 +147,7 @@ const SKILLS: {
   armsLore: { display: 'Arms Lore', category: SkillCategory.Misc },
   begging: { display: 'Begging', category: SkillCategory.Misc },
   itemId: { display: 'Item Identification', category: SkillCategory.Misc },
-  tasteId: { display: 'TasteId', category: SkillCategory.Misc },
+  tasteId: { display: 'Taste Identification', category: SkillCategory.Misc },
 };
 
 export class Skills {
