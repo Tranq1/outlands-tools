@@ -7,7 +7,7 @@ import {
   on,
 } from '@ngrx/store';
 import { AspectType, CharAspect } from 'src/app/interfaces/aspect';
-import { ActiveBuffValue } from 'src/app/interfaces/buffs';
+import { ActiveBuffValue, BuffType } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import {
@@ -34,7 +34,7 @@ export const initialState: TemplateBuilderState = {
     weapon: { type: AspectType.None, level: 0 },
     spellbook: { type: AspectType.None, level: 0 },
   },
-  buffs: [],
+  buffs: [{ active: true, type: BuffType.FoodManaReg, value: 5 }],
 };
 
 export const reducer = createReducer(
@@ -48,12 +48,12 @@ export const reducer = createReducer(
     skills: state.skills.filter((skill) => skill.name != skillName),
   })),
   on(updateStatsAction, (state, { stats }) => ({ ...state, stats })),
-  on(updateAspectsAction, (state, { aspects }) => ({ ...state, aspects })),
+  on(updateAspectsAction, (state, { aspects }) => ({ ...state, aspects }))
 );
 
 export const selectTemplateState =
   createFeatureSelector<TemplateBuilderState>(templateFeatureKey);
-  
+
 export const selectSkills = createSelector(
   selectTemplateState,
   (state) => state.skills

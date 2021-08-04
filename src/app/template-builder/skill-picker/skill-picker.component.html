@@ -1,10 +1,15 @@
 <ng-container [formGroup]="form">
   <h4>Select a skill</h4>
   <mat-form-field>
-    <mat-select formControlName="name">
-      <mat-option [value]="null">Pick a skill</mat-option>
-      <mat-option *ngFor="let option of pickableSkills$ | async"
-                  [value]="option.key">{{option.display}}</mat-option>
+    <mat-select formControlName="name"
+                placeholder="Pick a skill...">
+      <ng-container *ngIf="pickableSkills$ | async as groups">
+        <mat-optgroup *ngFor="let group of groups"
+                      [label]="group.category">
+          <mat-option *ngFor="let option of group.skills"
+                      [value]="option.value">{{option.display}}</mat-option>
+        </mat-optgroup>
+      </ng-container>
     </mat-select>
   </mat-form-field>
   <mat-form-field class="skill-value">
