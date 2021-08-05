@@ -27,5 +27,5 @@ export interface Aspect {
 }
 
 export type CharAspect = {
-  [loc in AspectSlot]: Aspect;
+  [loc in AspectSlot]: Aspect | undefined;
 };

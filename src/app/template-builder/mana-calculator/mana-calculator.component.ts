@@ -25,7 +25,7 @@ export class ManaCalculatorComponent implements OnInit {
   readonly airAspectArmor$ = this.store.pipe(
     select(selectTemplateState),
     select((s) => s.aspects.armor),
-    map((a) => (a.type == AspectType.Air ? a.level : 0))
+    map((a) => (a?.type == AspectType.Air ? a.level : 0))
   );
   readonly airAspectArmorBonus$ = this.airAspectArmor$.pipe(
     map((level) => (level === 0 ? 0 : 0.05 + level * 0.015))
@@ -53,7 +53,7 @@ export class ManaCalculatorComponent implements OnInit {
   ]).pipe(
     map(([tasteIdSkill, foodBuff]) => {
       if (foodBuff == null) return null;
-      var buffBonus = Buffs.GetBuffBonus(foodBuff, tasteIdSkill);
+      var buffBonus = 0;
       return buffBonus;
     })
   );
