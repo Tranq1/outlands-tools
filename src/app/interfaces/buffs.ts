@@ -38,7 +38,7 @@ export class Buffs {
 const BUFF_LIST: BuffInfo[] = [
   {
     type: BuffType.FoodManaReg,
-    bonus: (tier, foodBonus) => 0.05 * tier + 0.25 * (foodBonus / 100),
+    bonus: (tier, tasteIdSkill) => 0.05 * tier + 0.25 * (tasteIdSkill / 100),
     display: 'Food Mana Regen Double Chance',
     possibleValues: [1, 2, 3, 4, 5],
     source: 'food',

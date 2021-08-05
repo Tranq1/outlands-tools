@@ -9,6 +9,7 @@ import {
 import { AspectType, CharAspect } from 'src/app/interfaces/aspect';
 import { ActiveBuffValue, BuffType } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
+import { CharMastery } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import {
   addSkillAction,
@@ -24,6 +25,7 @@ export interface TemplateBuilderState {
   stats: CharStats;
   aspects: CharAspect;
   buffs: ActiveBuffValue[];
+  masteries: CharMastery[];
 }
 
 export const initialState: TemplateBuilderState = {
@@ -35,6 +37,7 @@ export const initialState: TemplateBuilderState = {
     spellbook: { type: AspectType.None, level: 0 },
   },
   buffs: [{ active: true, type: BuffType.FoodManaReg, value: 5 }],
+  masteries: []
 };
 
 export const reducer = createReducer(
