@@ -30,7 +30,7 @@ export interface ManaCalculation {
 
   // Additional mana sources
   magicMushroomAverageExtraMana: number; // 25 / 60 * (4 - spellWizLevel)
-  voidArmorBonusReg: number; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
+  voidArmorBonusMana: number; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
   totalAverageBonusMana: number; // sum of the above
 
   // 1 / (totalManaTickInterval * totalBonusChance * totalEffectiveRefundChance)
@@ -61,8 +61,8 @@ export class ManaCalculator implements ManaCalculation {
   totalEffectiveRefundChance!: number; // (1 + totalChance) * (1 + totalChance^2)
 
   // Additional mana sources
-  magicMushroomAverageExtraMana!: number; // 25 / 60 * (4 - spellWizLevel)
-  voidArmorBonusReg!: number; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
+  magicMushroomAverageExtraMana = 0; // 25 / 60 * (4 - spellWizLevel)
+  voidArmorBonusMana = 0; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
   totalAverageBonusMana!: number; // sum of the above
 
   // 1 / (totalManaTickInterval * totalBonusChance * totalEffectiveRefundChance)
@@ -145,17 +145,39 @@ export class ManaCalculator implements ManaCalculation {
       this.aspectManaRefundChance +
       this.manaDrainBonusRefundChance +
       this.spellbookBonusRefundChance;
-      
+
     this.totalEffectiveRefundChance =
       (1 + this.totalBaseRefundChance) *
       (1 + Math.pow(this.totalBaseRefundChance, 2));
   }
 
   calculateAdditionalManaSources(tmpl: TemplateBuilderState) {
-    throw new Error('Method not implemented.');
+    const magicMushroomBuffLevel = CalcUtils.getBuffValue(
+      tmpl,
+      BuffType.MagicMushroomWizardry
+    );
+    if (magicMushroomBuffLevel)
+      this.magicMushroomAverageExtraMana =
+        (25 / 60) * (4 - magicMushroomBuffLevel);
+
+    const voidArmor = CalcUtils.getAspectLevel(
+      tmpl,
+      AspectSlot.Armor,
+      AspectType.Void
+    );
+    const maxMana = tmpl.stats.int;
+    if (voidArmor)
+      this.voidArmorBonusMana = (maxMana * (0.16 + 0.02 * voidArmor)) / 60;
+    this.totalAverageBonusMana =
+      this.magicMushroomAverageExtraMana + this.voidArmorBonusMana;
   }
 
   calculateTotalEffectiveMana(tmpl: TemplateBuilderState) {
-    throw new Error('Method not implemented.');
+    this.totalEffectiveMana =
+      1 /
+        (this.totalManaTickInterval *
+          this.totalBonusChance *
+          this.totalEffectiveRefundChance) +
+      this.totalAverageBonusMana * this.totalEffectiveRefundChance;
   }
 }

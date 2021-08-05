@@ -1,8 +1,9 @@
 export enum BuffType {
-  FoodManaReg,
-  FoodSwingSpeed,
-  ActiveMeditation,
-  ManaDrainWizardry,
+    FoodManaReg,
+    FoodSwingSpeed,
+    ActiveMeditation,
+    ManaDrainWizardry,
+    MagicMushroomWizardry
 }
 
 export interface BuffInfo {
@@ -52,6 +53,12 @@ const BUFF_LIST: BuffInfo[] = [
   {
     type: BuffType.ManaDrainWizardry,
     display: 'Mana Drain Wizardry Refund Chance',
+    possibleValues: [0, 1, 2, 3],
+    source: 'wizardGrimoire',
+  },
+  {
+    type: BuffType.MagicMushroomWizardry,
+    display: 'Magic Mushroom Bonus Mana',
     possibleValues: [0, 1, 2, 3],
     source: 'wizardGrimoire',
   },
