@@ -9,6 +9,7 @@ import {
 import { AspectType, CharAspect } from 'src/app/interfaces/aspect';
 import { ActiveBuffValue, BuffType } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
+import { CharEquipment } from 'src/app/interfaces/equipment';
 import { CharMastery } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import {
@@ -26,6 +27,7 @@ export interface TemplateBuilderState {
   aspects: CharAspect;
   buffs: ActiveBuffValue[];
   masteries: CharMastery[];
+  equipment: CharEquipment;
 }
 
 export const initialState: TemplateBuilderState = {
@@ -37,7 +39,8 @@ export const initialState: TemplateBuilderState = {
     spellbook: { type: AspectType.None, level: 0 },
   },
   buffs: [{ active: true, type: BuffType.FoodManaReg, value: 5 }],
-  masteries: []
+  masteries: [],
+  equipment: { armor: null, instrument: null, spellbook: null, weapon: null },
 };
 
 export const reducer = createReducer(
