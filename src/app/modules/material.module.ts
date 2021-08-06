@@ -5,8 +5,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-const MODULES = [MatButtonModule, MatSelectModule, MatTableModule, MatInputModule, MatExpansionModule, MatCardModule];
+const MODULES = [
+  MatButtonModule,
+  MatSelectModule,
+  MatTableModule,
+  MatInputModule,
+  MatExpansionModule,
+  MatCardModule,
+  NgxMatSelectSearchModule,
+];
 
 @NgModule({
   imports: [...MODULES],

@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Skill as Skill } from 'src/app/data/skills.enum';
 import { CharAspect } from 'src/app/interfaces/aspect';
 import { CharStats } from 'src/app/interfaces/char-stats';
+import { CharMasteryEntry } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 
 export const addSkillAction = createAction(
@@ -11,6 +12,10 @@ export const addSkillAction = createAction(
 export const removeSkillAction = createAction(
   '[Template Skill] Remove Skill',
   props<{ skillName: string }>()
+);
+export const updateSkillAction = createAction(
+  '[Template Skill] Update Skill',
+  props<{ skillName: string; newValue: number }>()
 );
 export const updateSkillValueAction = createAction(
   '[Template Skill] Update Skill',
@@ -23,4 +28,16 @@ export const updateStatsAction = createAction(
 export const updateAspectsAction = createAction(
   '[Template Aspects] Update Aspects',
   props<{ aspects: CharAspect }>()
+);
+export const addMasteryAction = createAction(
+  '[Template Mastery] Add Mastery',
+  props<{ mastery: CharMasteryEntry }>()
+);
+export const removeMasteryAction = createAction(
+  '[Template Mastery] Remove Mastery',
+  props<{ name: string }>()
+);
+export const updateMasteryAction = createAction(
+  '[Template Mastery] Update Mastery',
+  props<{ name: string; newValue: number }>()
 );

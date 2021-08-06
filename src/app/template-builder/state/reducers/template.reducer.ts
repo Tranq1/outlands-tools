@@ -13,9 +13,13 @@ import { CharEquipment } from 'src/app/interfaces/equipment';
 import { CharMasteryEntry } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import {
+  addMasteryAction,
   addSkillAction,
+  removeMasteryAction,
   removeSkillAction,
   updateAspectsAction,
+  updateMasteryAction,
+  updateSkillAction,
   updateStatsAction,
 } from '../actions/template.actions';
 
@@ -53,8 +57,28 @@ export const reducer = createReducer(
     ...state,
     skills: state.skills.filter((skill) => skill.name != skillName),
   })),
+  on(updateSkillAction, (state, { skillName, newValue }) => ({
+    ...state,
+    skills: state.skills.map((skill) =>
+      skill.name !== skillName ? skill : { ...skill, value: newValue }
+    ),
+  })),
   on(updateStatsAction, (state, { stats }) => ({ ...state, stats })),
-  on(updateAspectsAction, (state, { aspects }) => ({ ...state, aspects }))
+  on(updateAspectsAction, (state, { aspects }) => ({ ...state, aspects })),
+  on(addMasteryAction, (state, { mastery }) => ({
+    ...state,
+    masteries: [...state.masteries, mastery],
+  })),
+  on(removeMasteryAction, (state, { name }) => ({
+    ...state,
+    masteries: state.masteries.filter((mastery) => mastery.type != name),
+  })),
+  on(updateMasteryAction, (state, { name, newValue }) => ({
+    ...state,
+    masteries: state.masteries.map((mastery) =>
+      mastery.type !== name ? mastery : { ...mastery, value: newValue }
+    ),
+  })),
 );
 
 export const selectTemplateState =

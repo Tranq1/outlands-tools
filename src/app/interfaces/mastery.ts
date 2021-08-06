@@ -64,7 +64,25 @@ export type MasteryInfo = {
   [entry in MasteryType]: { display: string; values: number[] };
 };
 
-const x: MasteryInfo = {
+export interface MasterySelectItem {
+  display: string;
+  value: string;
+}
+
+export class Masteries {
+  static GetSelectItems(): MasterySelectItem[] {
+    return Object.entries(MASTERY_INFO).map(([key, value]) => ({
+      value: key,
+      display: value.display,
+    }));
+  }
+
+  static GetDisplayName(type: MasteryType): string {
+    return MASTERY_INFO[type].display;
+  }
+}
+
+const MASTERY_INFO: MasteryInfo = {
   meleeAccuracy: { display: 'Melee Accuracy', values: [1.0, 1.25, 1.5] },
   meleeDefense: { display: 'Melee Defense', values: [2.0, 2.5, 3.0] },
   meleeDamage: { display: 'Melee Damage', values: [1.0, 1.25, 1.5] },

@@ -186,6 +186,7 @@ export interface SkillInfo {
   display: string;
   category: SkillCategory;
 }
+
 export interface SkillSelectGroup {
   category: SkillCategory;
   skills: SkillSelect[];
