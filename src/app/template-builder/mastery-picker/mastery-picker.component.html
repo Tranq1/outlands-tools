@@ -35,10 +35,12 @@
     <th mat-header-cell
         *matHeaderCellDef> Value </th>
     <td mat-cell
-        *matCellDef="let element"> <input matInput
+        *matCellDef="let element">
+      <input matInput
              type="number"
              [ngModel]="element.value"
-             (ngModelChange)="updateMasteryValue(element.type, $event)"> </td>
+             (ngModelChange)="updateMasteryValue(element.type, $event)">
+    </td>
   </ng-container>
 
   <!-- Actions Column -->

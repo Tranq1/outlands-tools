@@ -1,8 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, share, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  share,
+  startWith,
+  tap,
+} from 'rxjs/operators';
 import {
   Skill,
   SkillCategory,
@@ -15,6 +21,7 @@ import { SubSink } from 'subsink';
 import {
   addSkillAction,
   removeSkillAction,
+  updateSkillAction,
 } from '../state/actions/template.actions';
 import { selectSkills } from '../state/reducers/template.reducer';
 import groupBy from 'lodash-es/groupBy';
@@ -35,33 +42,35 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
     select(selectSkills)
   );
 
-  readonly pickableSkills$: Observable<SkillSelectGroup[]> =
-    this.pickedSkills$.pipe(
-      map((picked) =>
-        Skills.GetSkillsForSelect().filter(
-          (s) => !picked?.find((p) => p.name == s.value)
-        )
-      ),
-      map((s) =>
-        Object.entries(groupBy(s, 'category')).map(([cat, skills]) => ({
-          category: cat as SkillCategory,
-          skills,
-        }))
-      ),
-      share()
-    );
-
-  readonly addSkillSubject = new Subject<TemplateSkill>();
+  readonly filterControl = this.fb.control([]);
+  readonly pickableSkills$: Observable<SkillSelectGroup[]> = combineLatest([
+    this.pickedSkills$,
+    this.filterControl.valueChanges.pipe(startWith('')),
+  ]).pipe(
+    map(([pickedSkills, filter]) =>
+      Skills.GetSkillsForSelect().filter(
+        (allSkills) =>
+          (filter.length === 0 ||
+            allSkills.display.toLowerCase().includes(filter.toLowerCase())) &&
+          !pickedSkills?.find((p) => p.name == allSkills.value)
+      )
+    ),
+    map((s) =>
+      Object.entries(groupBy(s, 'category')).map(([cat, skills]) => ({
+        category: cat as SkillCategory,
+        skills,
+      }))
+    ),
+    share()
+  );
 
   constructor(private fb: FormBuilder, private store: Store) {}
 
-  ngOnInit(): void {
-    this.subsink.add(
-      this.addSkillSubject.asObservable().subscribe((pickedSkill) => {})
-    );
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.subsink.unsubscribe();
+  }
 
   public onAddClicked(): void {
     var skill = this.form.get('name')?.value;
@@ -81,5 +90,9 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
 
   public onRemoveClicked(skillName: string): void {
     this.store.dispatch(removeSkillAction({ skillName }));
+  }
+
+  public updateSkillValue(skillName: string, newValue: number) {
+    this.store.dispatch(updateSkillAction({ skillName, newValue }));
   }
 }
