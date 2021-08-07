@@ -38,6 +38,32 @@ export interface ManaCalculation {
   totalEffectiveMana: number;
 }
 
+export const MANA_CALCULATION_DEFAULT: ManaCalculation = {
+  baseManaRegTickInterval: 2,
+  meditationTickRateFactor: 0,
+  airAspectArmorTickRateFactor: 0,
+  masteryChainMeditationRateFactor: 0,
+  totalManaTickInterval: 0,
+
+  baseFoodBonusChance: 0,
+  tasteIdAdditionalBonusChance: 0,
+  totalFoodBonusChance: 0,
+  materialSpellbookBonusTickChance: 0,
+  totalBonusChance: 0,
+
+  aspectManaRefundChance: 0,
+  manaDrainBonusRefundChance: 0,
+  spellbookBonusRefundChance: 0,
+  totalBaseRefundChance: 0,
+  totalEffectiveRefundChance: 0,
+
+  magicMushroomAverageExtraMana: 0,
+  voidArmorBonusMana: 0,
+  totalAverageBonusMana: 0,
+
+  totalEffectiveMana: 0,
+};
+
 export class ManaCalculator implements ManaCalculation {
   // Mana Regen Tick rate
   baseManaRegTickInterval: number = 2; // 2

@@ -1,6 +1,5 @@
-import { type } from 'os';
 import { Skill } from '../data/skills.enum';
-import { Aspect, AspectSlot, AspectType } from '../interfaces/aspect';
+import { AspectSlot, AspectType } from '../interfaces/aspect';
 import { BuffType } from '../interfaces/buffs';
 import { Spellbook, Weapon } from '../interfaces/equipment';
 import { MasteryType } from '../interfaces/mastery';
@@ -20,7 +19,8 @@ export class CalcUtils {
     aspect?: AspectType
   ): number | undefined {
     const aspectInSlot = template.aspects[aspectSlot];
-    if (aspectInSlot && (!aspect || aspectInSlot.type === aspect)) return aspectInSlot.level;
+    if (aspectInSlot && (!aspect || aspectInSlot.type === aspect))
+      return aspectInSlot.level;
     return undefined;
   }
 

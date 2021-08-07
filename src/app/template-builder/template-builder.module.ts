@@ -11,6 +11,9 @@ import { MasteryPickerComponent } from './mastery-picker/mastery-picker.componen
 import { EquipmentPickerComponent } from './equipment-picker/equipment-picker.component';
 import { ManaCalculatorComponent } from './mana-calculator/mana-calculator.component';
 import { BuffPickerComponent } from './buff-picker/buff-picker.component';
+import * as fromCalc from './state/reducers/calculation.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CalculationEffects } from './state/effects/calculation.effects';
 
 const EXPORTED_COMPONENTS = [
   SkillPickerComponent,
@@ -30,6 +33,8 @@ const EXPORTED_COMPONENTS = [
       fromTemplate.templateFeatureKey,
       fromTemplate.reducer
     ),
+    StoreModule.forFeature(fromCalc.calculationFeatureKey, fromCalc.reducer),
+    EffectsModule.forFeature([CalculationEffects]),
     MaterialModule,
     SharedModule,
   ],
