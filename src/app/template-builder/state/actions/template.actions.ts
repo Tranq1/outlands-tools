@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Skill as Skill } from 'src/app/data/skills.enum';
 import { CharAspect } from 'src/app/interfaces/aspect';
+import { BuffType, CharBuffValue } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
 import { CharMasteryEntry } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
@@ -40,4 +41,20 @@ export const removeMasteryAction = createAction(
 export const updateMasteryAction = createAction(
   '[Template Mastery] Update Mastery',
   props<{ name: string; newValue: number }>()
+);
+export const addBuffAction = createAction(
+  '[Template Buff] Add Buff',
+  props<{ buffType: BuffType; value: number }>()
+);
+export const removeBuffAction = createAction(
+  '[Template Buff] Remove Buff',
+  props<{ buffType: BuffType }>()
+);
+export const setBuffActiveAction = createAction(
+  '[Template Buff] Set Buff Active',
+  props<{ buffType: BuffType }>()
+);
+export const updateBuffAction = createAction(
+  '[Template Buff] Update Buff',
+  props<{ buffType: BuffType; newValue: number }>()
 );

@@ -7,17 +7,20 @@ import {
   on,
 } from '@ngrx/store';
 import { AspectType, CharAspect } from 'src/app/interfaces/aspect';
-import { ActiveBuffValue, BuffType } from 'src/app/interfaces/buffs';
+import { CharBuffValue, BuffType } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
 import { CharEquipment } from 'src/app/interfaces/equipment';
 import { CharMasteryEntry } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 import {
+  addBuffAction,
   addMasteryAction,
   addSkillAction,
+  removeBuffAction,
   removeMasteryAction,
   removeSkillAction,
   updateAspectsAction,
+  updateBuffAction,
   updateMasteryAction,
   updateSkillAction,
   updateStatsAction,
@@ -29,7 +32,7 @@ export interface TemplateBuilderState {
   skills: TemplateSkill[];
   stats: CharStats;
   aspects: CharAspect;
-  buffs: ActiveBuffValue[];
+  buffs: CharBuffValue[];
   masteries: CharMasteryEntry[];
   equipment: CharEquipment;
 }
@@ -42,7 +45,7 @@ export const initialState: TemplateBuilderState = {
     weapon: { type: AspectType.None, level: 0 },
     spellbook: { type: AspectType.None, level: 0 },
   },
-  buffs: [{ active: true, type: BuffType.FoodManaReg, value: 5 }],
+  buffs: [],
   masteries: [],
   equipment: { armor: null, instrument: null, spellbook: null, weapon: null },
 };
@@ -79,6 +82,20 @@ export const reducer = createReducer(
       mastery.type !== name ? mastery : { ...mastery, value: newValue }
     ),
   })),
+  on(addBuffAction, (state, { buffType, value }) => ({
+    ...state,
+    buffs: [...state.buffs, { active: true, type: buffType, value: value }],
+  })),
+  on(removeBuffAction, (state, { buffType }) => ({
+    ...state,
+    buffs: state.buffs.filter((buff) => buff.type != buffType),
+  })),
+  on(updateBuffAction, (state, { buffType, newValue }) => ({
+    ...state,
+    buffs: state.buffs.map((buff) =>
+      buff.type !== buffType ? buff : { ...buff, value: newValue }
+    ),
+  }))
 );
 
 export const selectTemplateState =
