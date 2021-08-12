@@ -1,12 +1,27 @@
 div.content {
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  & > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  > div {
     display: flex;
-    align-items: center;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+
+      > :first-child {
+        margin-bottom: 2px;
+      }
+    }
   }
 }
 
 mat-form-field {
-  width: 50px;
+  width: 40px;
+}
+
+.set-number {
+  color: blue;
+  cursor: pointer;
 }

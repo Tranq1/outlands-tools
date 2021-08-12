@@ -22,10 +22,10 @@ export enum AspectSlot {
 }
 
 export interface Aspect {
-  type: AspectType;
+  type: AspectType | null;
   level: number;
 }
 
 export type CharAspect = {
-  [loc in AspectSlot]: Aspect | undefined;
+  [loc in AspectSlot]: Aspect;
 };

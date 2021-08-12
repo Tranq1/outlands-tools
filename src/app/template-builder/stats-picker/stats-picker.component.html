@@ -3,33 +3,57 @@
 <div class="content"
      [formGroup]="form">
   <div>
-    <div>Str</div>
     <mat-form-field>
       <input matInput
              type="number"
              formControlName="str"
              min="10"
-             max="125">
+             max="125"
+             placeholder="Str">
     </mat-form-field>
+    <div>
+      <div class="set-number"
+           matTooltip="Set to 25"
+           (click)="setStat('str', 25)">25</div>
+      <div class="set-number"
+           matTooltip="Set to 100"
+           (click)="setStat('str', 100)">100</div>
+    </div>
   </div>
   <div>
-    <div>Dex</div>
     <mat-form-field>
       <input matInput
              type="number"
              formControlName="dex"
              min="10"
-             max="125">
+             max="125"
+             placeholder="Dex">
     </mat-form-field>
+    <div>
+      <div class="set-number"
+           matTooltip="Set to 25"
+           (click)="setStat('dex', 25)">25</div>
+      <div class="set-number"
+           matTooltip="Set to 100"
+           (click)="setStat('dex', 100)">100</div>
+    </div>
   </div>
   <div>
-    <div>Int</div>
     <mat-form-field>
       <input matInput
              type="number"
              formControlName="int"
              min="10"
-             max="125">
+             max="125"
+             placeholder="Int">
     </mat-form-field>
+    <div>
+      <div class="set-number"
+           matTooltip="Set to 25"
+           (click)="setStat('int', 25)">25</div>
+      <div class="set-number"
+           matTooltip="Set to 100"
+           (click)="setStat('int', 100)">100</div>
+    </div>
   </div>
 </div>

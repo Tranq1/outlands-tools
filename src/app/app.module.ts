@@ -11,6 +11,7 @@ import { environment } from '../environments/environment';
 import { LayoutComponent } from './layout/layout/layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
@@ -28,7 +29,7 @@ import { MaterialModule } from './modules/material.module';
         })
       : [],
     BrowserAnimationsModule,
-    MaterialModule,
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

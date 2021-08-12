@@ -5,7 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromTemplate from './state/reducers/template.reducer';
 import { StatsPickerComponent } from './stats-picker/stats-picker.component';
 import { MaterialModule } from '../modules/material.module';
-import { SharedModule } from '../modules/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { AspectPickerComponent } from './aspect-picker/aspect-picker.component';
 import { MasteryPickerComponent } from './mastery-picker/mastery-picker.component';
 import { EquipmentPickerComponent } from './equipment-picker/equipment-picker.component';

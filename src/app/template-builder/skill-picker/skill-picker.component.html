@@ -1,28 +1,30 @@
 <ng-container [formGroup]="form">
   <h4>Select a skill</h4>
-  <mat-form-field>
-    <mat-select formControlName="name"
-                placeholder="Pick a skill...">
-      <ng-container *ngIf="pickableSkills$ | async as groups">
-        <mat-option>
-          <ngx-mat-select-search [formControl]="filterControl"></ngx-mat-select-search>
-        </mat-option>
-        <mat-optgroup *ngFor="let group of groups"
-                      [label]="group.category">
-          <mat-option *ngFor="let option of group.skills"
-                      [value]="option.value">{{option.display}}</mat-option>
-        </mat-optgroup>
-      </ng-container>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="skill-value">
-    <input matInput
-           type="number"
-           formControlName="value">
-  </mat-form-field>
-  <button mat-flat-button
-          color="primary"
-          (click)="onAddClicked()">Add</button>
+  <div class="add-skill-row">
+    <mat-form-field>
+      <mat-select formControlName="name"
+                  placeholder="Pick a skill...">
+        <ng-container *ngIf="pickableSkills$ | async as groups">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="filterControl"></ngx-mat-select-search>
+          </mat-option>
+          <mat-optgroup *ngFor="let group of groups"
+                        [label]="group.category">
+            <mat-option *ngFor="let option of group.skills"
+                        [value]="option.value">{{option.display}}</mat-option>
+          </mat-optgroup>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="skill-value">
+      <input matInput
+             type="number"
+             formControlName="value">
+    </mat-form-field>
+    <button mat-flat-button
+            color="primary"
+            (click)="onAddClicked()">Add</button>
+  </div>
 </ng-container>
 
 <table mat-table
@@ -38,7 +40,8 @@
   <!-- Value Column -->
   <ng-container matColumnDef="value">
     <th mat-header-cell
-        *matHeaderCellDef> Value </th>
+        *matHeaderCellDef
+        [style.width]="'50px'"> Value </th>
     <td mat-cell
         *matCellDef="let element">
       <input matInput
@@ -51,15 +54,23 @@
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell
-        *matHeaderCellDef> </th>
+        *matHeaderCellDef
+        [style.width]="'50px'"> Remove </th>
     <td mat-cell
-        *matCellDef="let element"> <button mat-flat-button
+        *matCellDef="let element"> <button mat-icon-button
               (click)="onRemoveClicked(element.name)"
-              color="warn">Remove</button> </td>
+              color="warn">
+        <mat-icon matTooltip="Remove skill">delete</mat-icon>
+      </button> </td>
   </ng-container>
 
   <tr mat-header-row
       *matHeaderRowDef="['display', 'value', 'actions']"></tr>
   <tr mat-row
       *matRowDef="let row; columns: ['display', 'value', 'actions'];"></tr>
+  <tr *matNoDataRow
+      class="mat-row">
+    <td colspan="3"
+        class="mat-cell"> No skills added yet. Add a skill from the list above. </td>
+  </tr>
 </table>

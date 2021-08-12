@@ -3,7 +3,11 @@ table {
 }
 
 .skill-value {
-  margin-left: 15px;
-  margin-right: 15px;
   width: 50px;
+}
+
+.add-skill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

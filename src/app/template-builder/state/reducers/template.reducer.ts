@@ -41,9 +41,9 @@ export const initialState: TemplateBuilderState = {
   skills: [],
   stats: { str: 25, dex: 25, int: 25 },
   aspects: {
-    armor: { type: AspectType.None, level: 0 },
-    weapon: { type: AspectType.None, level: 0 },
-    spellbook: { type: AspectType.None, level: 0 },
+    armor: { type: null, level: 0 },
+    weapon: { type: null, level: 0 },
+    spellbook: { type: null, level: 0 },
   },
   buffs: [],
   masteries: [],

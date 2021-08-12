@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>{{title}}</mat-card-title>
+      <div>
+        <button mat-icon-button
+                matTooltip="Reset">
+          <mat-icon>restart_alt</mat-icon>
+        </button>
+        <button *ngIf="showMinimize"
+                mat-icon-button
+                matTooltip="Minimize">
+          <mat-icon>minimize</mat-icon>
+        </button>
+      </div>
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-divider>
+  </mat-divider>
+  <mat-card-content>
+    <ng-content></ng-content>
+  </mat-card-content>
+</mat-card>

@@ -6,6 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const MODULES = [
   MatButtonModule,
@@ -15,6 +18,9 @@ const MODULES = [
   MatExpansionModule,
   MatCardModule,
   NgxMatSelectSearchModule,
+  MatDividerModule,
+  MatIconModule,
+  MatTooltipModule
 ];
 
 @NgModule({

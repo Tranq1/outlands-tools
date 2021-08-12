@@ -41,4 +41,8 @@ export class StatsPickerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subsink.unsubscribe();
   }
+
+  setStat(state: 'str' | 'dex' | 'int', value: number) {
+    this.form.patchValue({ [state]: value });
+  }
 }
