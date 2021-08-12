@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   map,
   share,
@@ -64,9 +65,24 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
     share()
   );
 
+  readonly canAdd$ = this.form.valueChanges.pipe(
+    map((v) => v.name !== null && v.value > 0 && v.value <= 120)
+  );
+  readonly updateSubject = new Subject<{
+    skillName: string;
+    newValue: number;
+  }>();
+  readonly updateValue$ = this.updateSubject.pipe(debounceTime(1000));
+
   constructor(private fb: FormBuilder, private store: Store) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subsink.add(
+      this.updateValue$.subscribe(({ skillName, newValue }) =>
+        this.store.dispatch(updateSkillAction({ skillName, newValue }))
+      )
+    );
+  }
 
   ngOnDestroy(): void {
     this.subsink.unsubscribe();
@@ -93,6 +109,6 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
   }
 
   public updateSkillValue(skillName: string, newValue: number) {
-    this.store.dispatch(updateSkillAction({ skillName, newValue }));
+    this.updateSubject.next({ skillName, newValue });
   }
 }

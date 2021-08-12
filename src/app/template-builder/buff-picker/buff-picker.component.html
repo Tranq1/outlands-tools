@@ -45,7 +45,8 @@
   <!-- Value Column -->
   <ng-container matColumnDef="value">
     <th mat-header-cell
-        *matHeaderCellDef> Value </th>
+        *matHeaderCellDef
+        [style.width]="'50px'"> Value </th>
     <td mat-cell
         *matCellDef="let element">
       <input matInput
@@ -58,15 +59,25 @@
   <!-- Actions Column -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell
-        *matHeaderCellDef> </th>
+        *matHeaderCellDef
+        [style.width]="'50px'">Remove</th>
     <td mat-cell
-        *matCellDef="let element"> <button mat-flat-button
+        *matCellDef="let element">
+      <button mat-icon-button
               (click)="onRemoveClicked(element.type)"
-              color="warn">Remove</button> </td>
+              color="warn">
+        <mat-icon matTooltip="Remove mastery">delete</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row
       *matHeaderRowDef="['display', 'value', 'actions']"></tr>
   <tr mat-row
       *matRowDef="let row; columns: ['display', 'value', 'actions'];"></tr>
+  <tr *matNoDataRow
+      class="mat-row">
+    <td colspan="3"
+        class="mat-cell"> No buffs added yet. Add a buff from the list above. </td>
+  </tr>
 </table>

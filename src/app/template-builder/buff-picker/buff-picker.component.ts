@@ -36,7 +36,6 @@ export class BuffPickerComponent implements OnInit {
         info: Buffs.GetBuffInfo(b.type),
       }))
     ),
-    tap((x) => console.log(x))
   );
 
   readonly pickedBuffPossibleValues$ = this.form

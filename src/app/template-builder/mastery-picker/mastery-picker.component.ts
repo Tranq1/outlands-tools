@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { selectTemplateState } from '../state/reducers/template.reducer';
-import { map, startWith, take } from 'rxjs/operators';
+import { debounceTime, map, startWith, take } from 'rxjs/operators';
 import { SubSink } from 'subsink';
 import {
   CharMasteryEntry,
@@ -52,10 +52,20 @@ export class MasteryPickerComponent implements OnInit, OnDestroy {
     )
   );
 
+  readonly canAdd$ = this.form.valueChanges.pipe(
+    map((newValue) => newValue.type && newValue.value > 0)
+  );
+  readonly updateSubject = new Subject<{ name: string; newValue: number }>();
+  readonly updateValue$ = this.updateSubject.pipe(debounceTime(1000));
+
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    this.subsink.add();
+    this.subsink.add(
+      this.updateValue$.subscribe(({ name, newValue }) =>
+        this.store.dispatch(updateMasteryAction({ name, newValue }))
+      )
+    );
   }
 
   ngOnDestroy(): void {
@@ -66,15 +76,14 @@ export class MasteryPickerComponent implements OnInit, OnDestroy {
     const newValue = this.form.value as CharMasteryEntry;
     if (!newValue.type || newValue.value <= 0) return;
     this.store.dispatch(addMasteryAction({ mastery: newValue }));
-    this.form.patchValue({ type: null }, { emitEvent: false });
+    this.form.patchValue({ type: null });
   }
 
   onRemoveClicked(name: string) {
-    console.log('remove', name);
     this.store.dispatch(removeMasteryAction({ name }));
   }
 
-  updateMasteryValue(type: MasteryType, value: number) {
-    this.store.dispatch(updateMasteryAction({ name: type, newValue: value }));
+  updateMasteryValue(name: MasteryType, newValue: number) {
+    this.updateSubject.next({ name, newValue });
   }
 }

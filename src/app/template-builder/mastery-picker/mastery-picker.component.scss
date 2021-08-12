@@ -1,9 +1,11 @@
 .picker-row {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .number-input {
-  width: 100px;
+  width: 50px;
 }
 
 table {

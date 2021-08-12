@@ -1,10 +1,29 @@
-<h2>Pick your aspects</h2>
-
+<div class="form-field-group"
+     [formGroup]="allAspectsForm">
+  <div class="aspect-type">All aspects</div>
+  <mat-form-field class="select-field">
+    <mat-select formControlName="type"
+                placeholder="Pick an aspect...">
+      <mat-option *ngFor="let aspect of aspectList"
+                  [value]="aspect.value">{{aspect.display}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="level-field">
+    <input matInput
+           type="number"
+           min="0"
+           max="13"
+           formControlName="level">
+  </mat-form-field>
+</div>
+<mat-divider></mat-divider>
 <ng-container [formGroup]="aspectForm">
-  <ng-container formGroupName="armor">
-    <h4>Armor</h4>
+  <div class="form-field-group"
+       formGroupName="armor">
+    <div class="aspect-type">Armor</div>
     <mat-form-field class="select-field">
-      <mat-select formControlName="type">
+      <mat-select formControlName="type"
+                  placeholder="Pick an aspect...">
         <mat-option *ngFor="let aspect of aspectList"
                     [value]="aspect.value">{{aspect.display}}</mat-option>
       </mat-select>
@@ -16,11 +35,13 @@
              max="13"
              formControlName="level">
     </mat-form-field>
-  </ng-container>
-  <ng-container formGroupName="weapon">
-    <h4>Weapon</h4>
+  </div>
+  <div class="form-field-group"
+       formGroupName="weapon">
+    <div class="aspect-type">Weapon</div>
     <mat-form-field class="select-field">
-      <mat-select formControlName="type">
+      <mat-select formControlName="type"
+                  placeholder="Pick an aspect...">
         <mat-option *ngFor="let aspect of aspectList"
                     [value]="aspect.value">{{aspect.display}}</mat-option>
       </mat-select>
@@ -32,11 +53,13 @@
              max="13"
              formControlName="level">
     </mat-form-field>
-  </ng-container>
-  <ng-container formGroupName="spellbook">
-    <h4>Spellbook</h4>
+  </div>
+  <div class="form-field-group"
+       formGroupName="spellbook">
+    <div class="aspect-type">Spellbook</div>
     <mat-form-field class="select-field">
-      <mat-select formControlName="type">
+      <mat-select formControlName="type"
+                  placeholder="Pick an aspect...">
         <mat-option *ngFor="let aspect of aspectList"
                     [value]="aspect.value">{{aspect.display}}</mat-option>
       </mat-select>
@@ -48,5 +71,5 @@
              max="13"
              formControlName="level">
     </mat-form-field>
-  </ng-container>
+  </div>
 </ng-container>

@@ -1,5 +1,4 @@
 export enum AspectType {
-  None = 'none',
   Air = 'air',
   Artisan = 'artisan',
   Blood = 'blood',

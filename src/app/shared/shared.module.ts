@@ -1,9 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../modules/material.module';
 import { UiCardComponent } from './ui-card/ui-card.component';
 
-const MODULES = [ReactiveFormsModule, FormsModule, MaterialModule];
+const MODULES = [ReactiveFormsModule, FormsModule, MaterialModule, CommonModule];
 
 @NgModule({
   imports: [...MODULES],

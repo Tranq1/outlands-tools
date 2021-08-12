@@ -41,12 +41,12 @@ export class Buffs {
 }
 
 export const FOOD_VALUES: BuffSelectItem[] = [
-  { display: 'Normal', value: 0 },
-  { display: 'Measly', value: 1 },
-  { display: 'Bla', value: 2 },
-  { display: 'Bla2', value: 3 },
-  { display: 'Bla3', value: 4 },
   { display: 'Delectable', value: 5 },
+  { display: 'Appetizing', value: 4 },
+  { display: 'Adequate', value: 3 },
+  { display: 'Meager', value: 2 },
+  { display: 'Paltry', value: 1 },
+  { display: 'Measly', value: 0 },
 ];
 
 export const GRIMOIRE_VALUES: BuffSelectItem[] = [
@@ -80,7 +80,7 @@ export const BUFF_LIST: BuffInfo[] = [
   },
   {
     type: BuffType.ManaDrainWizardry,
-    display: 'Mana Drain Wizardry Refund Chance',
+    display: 'Mana Drain Grimoire Upgrade',
     possibleValues: GRIMOIRE_VALUES,
     source: 'wizardGrimoire',
     canBeUsed: (state) =>
@@ -88,7 +88,7 @@ export const BUFF_LIST: BuffInfo[] = [
   },
   {
     type: BuffType.MagicMushroomWizardry,
-    display: 'Magic Mushroom Bonus Mana',
+    display: 'Magic Mushroom Grimoire Upgrade',
     possibleValues: GRIMOIRE_VALUES,
     source: 'wizardGrimoire',
     canBeUsed: (state) =>

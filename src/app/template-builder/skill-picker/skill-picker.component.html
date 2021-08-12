@@ -23,7 +23,8 @@
     </mat-form-field>
     <button mat-flat-button
             color="primary"
-            (click)="onAddClicked()">Add</button>
+            (click)="onAddClicked()"
+            [disabled]="!(canAdd$ | async)">Add</button>
   </div>
 </ng-container>
 
@@ -57,11 +58,13 @@
         *matHeaderCellDef
         [style.width]="'50px'"> Remove </th>
     <td mat-cell
-        *matCellDef="let element"> <button mat-icon-button
+        *matCellDef="let element">
+      <button mat-icon-button
               (click)="onRemoveClicked(element.name)"
               color="warn">
         <mat-icon matTooltip="Remove skill">delete</mat-icon>
-      </button> </td>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row

@@ -40,7 +40,6 @@ export class CalculationEffects {
         updateMasteryAction
       ),
       withLatestFrom(this.store$.select(selectTemplateState)),
-      tap(([x, state]) => console.log('action in effects', x, state)),
       map(([a, state]) =>
         recalculationFinishedAction({
           calculationState: this.recalculateFromState(state),
