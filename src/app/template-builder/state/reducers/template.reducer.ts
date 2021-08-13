@@ -16,6 +16,8 @@ import {
   addBuffAction,
   addMasteryAction,
   addSkillAction,
+  addSpellbookAction,
+  addWeaponAction,
   removeBuffAction,
   removeMasteryAction,
   removeSkillAction,
@@ -47,7 +49,7 @@ export const initialState: TemplateBuilderState = {
   },
   buffs: [],
   masteries: [],
-  equipment: { armor: null, instrument: null, spellbook: null, weapon: null },
+  equipment: { spellbook: null, weapon: null },
 };
 
 export const reducer = createReducer(
@@ -95,7 +97,15 @@ export const reducer = createReducer(
     buffs: state.buffs.map((buff) =>
       buff.type !== buffType ? buff : { ...buff, value: newValue }
     ),
-  }))
+  })),
+  on(addSpellbookAction, (state, { newSpellbook }) => ({
+    ...state,
+    equipment: { ...state.equipment, spellbook: newSpellbook },
+  })),
+  on(addWeaponAction, (state, { newWeapon }) => ({
+    ...state,
+    equipment: { ...state.equipment, weapon: newWeapon },
+  })),
 );
 
 export const selectTemplateState =

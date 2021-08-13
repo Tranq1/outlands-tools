@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  &.type {
+    width: 50%;
+  }
+  &.properties {
+    width: 50%;
+  }
+  &.remove {
+    width: 50px;
+  }
+}

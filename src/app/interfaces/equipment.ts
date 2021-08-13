@@ -46,10 +46,10 @@ export enum PowerType {
 
 export enum EquipmentType {
   Weapon = 'weapon',
-  Armor = 'armor',
+//   Armor = 'armor',
   Spellbook = 'spellbook',
-  Shield = 'shield',
-  Instrument = 'instrument',
+//   Shield = 'shield',
+//   Instrument = 'instrument',
 }
 
 export enum SlayerTier {
@@ -60,7 +60,6 @@ export enum SlayerTier {
 }
 
 export interface BaseEquipment {
-  itemType: EquipmentType;
   powerType: PowerType;
   materialTier: MaterialTier;
   isExceptional: boolean;
@@ -89,7 +88,20 @@ export interface Instrument extends BaseEquipment {
 
 export interface CharEquipment {
   weapon: Weapon | null;
-  armor: Armor | null;
+//   armor: Armor | null;
   spellbook: Spellbook | null;
-  instrument: Instrument | null;
+//   instrument: Instrument | null;
 }
+
+export interface AddEquipmentFormData {
+    equipmentType: EquipmentType | null;
+    powerType: PowerType;
+    materialTier: MaterialTier;
+    isExceptional: boolean;
+    slayerTier: SlayerTier;
+    damageTier: DamageTier;
+    artistryTier: MagicTier;
+    potencyTier: MagicTier;
+    accuracyTier: MagicTier;
+    protectionTier: ProtectionTier;
+  }

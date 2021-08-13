@@ -3,6 +3,12 @@ import { Skill as Skill } from 'src/app/data/skills.enum';
 import { CharAspect } from 'src/app/interfaces/aspect';
 import { BuffType, CharBuffValue } from 'src/app/interfaces/buffs';
 import { CharStats } from 'src/app/interfaces/char-stats';
+import {
+  AddEquipmentFormData,
+  EquipmentType,
+  Spellbook,
+  Weapon,
+} from 'src/app/interfaces/equipment';
 import { CharMasteryEntry } from 'src/app/interfaces/mastery';
 import { TemplateSkill } from 'src/app/interfaces/skill';
 
@@ -57,4 +63,16 @@ export const setBuffActiveAction = createAction(
 export const updateBuffAction = createAction(
   '[Template Buff] Update Buff',
   props<{ buffType: BuffType; newValue: number }>()
+);
+export const addSpellbookAction = createAction(
+  '[Template Equipment] Add Spellbook',
+  props<{ newSpellbook: Spellbook }>()
+);
+export const addWeaponAction = createAction(
+  '[Template Equipment] Add Spellbook',
+  props<{ newWeapon: Weapon }>()
+);
+export const removeEquipmentAction = createAction(
+  '[Template Equipment] Remove Equipment',
+  props<{ equipmentType: EquipmentType }>()
 );

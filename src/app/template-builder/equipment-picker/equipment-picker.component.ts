@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import {
+  AddEquipmentFormData,
   DamageTier,
   EquipmentType,
   MagicTier,
@@ -13,6 +14,10 @@ import {
   SlayerTier,
 } from 'src/app/interfaces/equipment';
 import { SubSink } from 'subsink';
+import {
+  addSpellbookAction,
+  addWeaponAction,
+} from '../state/actions/template.actions';
 import { selectTemplateState } from '../state/reducers/template.reducer';
 
 @Component({
@@ -27,6 +32,10 @@ export class EquipmentPickerComponent implements OnInit, OnDestroy {
   readonly equipmentState$ = this.store.pipe(
     select(selectTemplateState),
     select((s) => s.equipment)
+  );
+  readonly equippedWeapon$ = this.equipmentState$.pipe(select((s) => s.weapon));
+  readonly equippedSpellbook$ = this.equipmentState$.pipe(
+    select((s) => s.spellbook)
   );
 
   readonly pickableEquipmentTypes$: Observable<
@@ -87,7 +96,9 @@ export class EquipmentPickerComponent implements OnInit, OnDestroy {
       this.addEquipmentForm
         .get('equipmentType')!
         .valueChanges.pipe(distinctUntilChanged())
-        .subscribe(() => this.addEquipmentForm.patchValue({ powerType: null })),
+        .subscribe(() =>
+          this.addEquipmentForm.patchValue({ powerType: PowerType.Regular })
+        ),
       this.addEquipmentForm
         .get('powerType')!
         .valueChanges.pipe(distinctUntilChanged())
@@ -108,6 +119,41 @@ export class EquipmentPickerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subsink.unsubscribe();
   }
+
+  addEquipment() {
+    const form: AddEquipmentFormData = this.addEquipmentForm.value;
+    switch (form.equipmentType) {
+      case EquipmentType.Spellbook:
+        this.store.dispatch(
+          addSpellbookAction({
+            newSpellbook: {
+              damageTier: form.damageTier,
+              isExceptional: form.isExceptional,
+              materialTier: form.materialTier,
+              potencyTier: form.potencyTier,
+              powerType: form.powerType,
+              slayerTier: form.slayerTier,
+            },
+          })
+        );
+        break;
+      case EquipmentType.Weapon:
+        this.store.dispatch(
+          addWeaponAction({
+            newWeapon: {
+              damageTier: form.damageTier,
+              isExceptional: form.isExceptional,
+              materialTier: form.materialTier,
+              accuracyTier: form.accuracyTier,
+              powerType: form.powerType,
+              slayerTier: form.slayerTier,
+            },
+          })
+        );
+        break;
+    }
+    this.addEquipmentForm.patchValue(ADD_EQUIPMENT_DEFAULT);
+  }
 }
 
 const ADD_EQUIPMENT_DEFAULT: AddEquipmentFormData = {
@@ -120,18 +166,5 @@ const ADD_EQUIPMENT_DEFAULT: AddEquipmentFormData = {
   artistryTier: MagicTier.Regular,
   potencyTier: MagicTier.Regular,
   accuracyTier: MagicTier.Regular,
-  protectionTier: ProtectionTier.Regular
+  protectionTier: ProtectionTier.Regular,
 };
-
-interface AddEquipmentFormData {
-  equipmentType: EquipmentType | null;
-  powerType: PowerType | null;
-  materialTier: MaterialTier | null;
-  isExceptional: boolean;
-  slayerTier: SlayerTier | null;
-  damageTier: DamageTier | null;
-  artistryTier: MagicTier | null;
-  potencyTier: MagicTier | null;
-  accuracyTier: MagicTier | null;
-  protectionTier: ProtectionTier | null;
-}
