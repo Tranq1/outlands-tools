@@ -1,1 +1,67 @@
-<p>equipment-picker works!</p>
+<ng-container [formGroup]="addEquipmentForm">
+  <mat-form-field>
+    <mat-select placeholder="Pick equipment type..."
+                formControlName="equipmentType">
+      <mat-option *ngFor="let opt of (pickableEquipmentTypes$ | async)"
+                  [value]="opt.value">{{opt.display}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="pickedEquipmentType$ | async">
+    <mat-select formControlName="powerType"
+                placeholder="Magical or crafted?">
+      <mat-option *ngFor="let pt of powerTypes"
+                  [value]="pt.value">
+        {{pt.display}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ng-container *ngIf="(pickedPowerType$ | async) == 'crafted'">
+    <mat-form-field>
+      <mat-select formControlName="materialTier"
+                  placeholder="Pick the material...">
+        <mat-option *ngFor="let mt of materialTiers"
+                    [value]="mt.value">
+          {{mt.display}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <mat-checkbox formControlName="isExceptional">Exceptional</mat-checkbox>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="(pickedPowerType$ | async) == 'magic'">
+    <ng-container *ngIf="(pickedEquipmentType$ | async) === 'spellbook'">
+      <mat-form-field>
+        <mat-select formControlName="potencyTier"
+                    placeholder="Pick Potency...">
+          <mat-option *ngFor="let mt of magicTiers"
+                      [value]="mt.value">
+            {{mt.display}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select formControlName="damageTier"
+                    placeholder="Pick Damage...">
+          <mat-option *ngFor="let dt of damageTiers"
+                      [value]="dt.value">
+            {{dt.display}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="pickedEquipmentType$ | async as equipmentType">
+      <mat-form-field
+                      *ngIf="equipmentType === 'spellbook' || equipmentType === 'weapon' || equipmentType === 'instrument'">
+        <mat-select formControlName="slayerTier"
+                    placeholder="Pick Slayer...">
+          <mat-option *ngFor="let mt of slayerTiers"
+                      [value]="mt.value">
+            {{mt.display}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+  </ng-container>
+</ng-container>
+<mat-divider></mat-divider>

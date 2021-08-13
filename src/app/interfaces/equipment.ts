@@ -1,14 +1,14 @@
 export enum MaterialTier {
-  Normal = 0,
-  Dull = 1,
-  Shadow = 2,
-  Copper = 3,
-  Bronze = 4,
-  Golden = 5,
-  Rose = 6,
-  Vere = 7,
-  Vale = 8,
   Avar = 9,
+  Vale = 8,
+  Vere = 7,
+  Rose = 6,
+  Golden = 5,
+  Bronze = 4,
+  Copper = 3,
+  Shadow = 2,
+  Dull = 1,
+  Regular = 0,
 }
 
 export enum MagicTier {
@@ -20,13 +20,22 @@ export enum MagicTier {
   Supremely = 5,
 }
 
-export enum PowerType {
-  Regular,
-  Magic,
-  Crafted,
+export enum DamageTier {
+  Regular = 0,
+  Ruin = 1,
+  Might = 2,
+  Force = 3,
+  Power = 4,
+  Vanquishing = 5,
 }
 
-export enum ItemType {
+export enum PowerType {
+  Regular = 'regular',
+  Magic = 'magic',
+  Crafted = 'crafted',
+}
+
+export enum EquipmentType {
   Weapon = 'weapon',
   Armor = 'armor',
   Spellbook = 'spellbook',
@@ -42,7 +51,7 @@ export enum SlayerTier {
 }
 
 export interface BaseEquipment {
-  itemType: ItemType;
+  itemType: EquipmentType;
   powerType: PowerType;
   materialTier: MaterialTier;
   isExceptional: boolean;
@@ -50,7 +59,7 @@ export interface BaseEquipment {
 
 export interface Weapon extends BaseEquipment {
   accuracyTier: MagicTier;
-  damageTier: MagicTier;
+  damageTier: DamageTier;
   slayerTier: SlayerTier;
 }
 
@@ -60,7 +69,7 @@ export interface Armor extends BaseEquipment {
 
 export interface Spellbook extends BaseEquipment {
   potencyTier: MagicTier;
-  damageTier: MagicTier;
+  damageTier: DamageTier;
   slayerTier: SlayerTier;
 }
 
@@ -70,8 +79,8 @@ export interface Instrument extends BaseEquipment {
 }
 
 export interface CharEquipment {
-    weapon: Weapon | null;
-    armor: Armor | null;
-    spellbook: Spellbook | null;
-    instrument: Instrument | null;
+  weapon: Weapon | null;
+  armor: Armor | null;
+  spellbook: Spellbook | null;
+  instrument: Instrument | null;
 }

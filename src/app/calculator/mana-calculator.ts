@@ -1,7 +1,7 @@
 import { Skill } from '../data/skills.enum';
 import { AspectSlot, AspectType } from '../interfaces/aspect';
 import { Buffs, BuffType } from '../interfaces/buffs';
-import { ItemType, PowerType } from '../interfaces/equipment';
+import { EquipmentType, PowerType } from '../interfaces/equipment';
 import { MasteryType } from '../interfaces/mastery';
 import { TemplateBuilderState } from '../template-builder/state/reducers/template.reducer';
 import { CalcUtils } from './calc-utils';
@@ -29,8 +29,8 @@ export interface ManaCalculation {
   totalEffectiveRefundChance: number; // (1 + totalChance) * (1 + totalChance^2)
 
   // Additional mana sources
-  magicMushroomAverageExtraMana: number; // 25 / 60 * (4 - spellWizLevel)
-  voidArmorBonusMana: number; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
+  magicMushroomBonusManaPerSecond: number; // 25 / 60 * (4 - spellWizLevel)
+  voidArmorBonusManaPerSecond: number; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
   totalAverageBonusMana: number; // sum of the above
 
   // 1 / (totalManaTickInterval * totalBonusChance * totalEffectiveRefundChance)
@@ -57,8 +57,8 @@ export const MANA_CALCULATION_DEFAULT: ManaCalculation = {
   totalBaseRefundChance: 0,
   totalEffectiveRefundChance: 0,
 
-  magicMushroomAverageExtraMana: 0,
-  voidArmorBonusMana: 0,
+  magicMushroomBonusManaPerSecond: 0,
+  voidArmorBonusManaPerSecond: 0,
   totalAverageBonusMana: 0,
 
   totalEffectiveMana: 0,
@@ -87,8 +87,9 @@ export class ManaCalculator implements ManaCalculation {
   totalEffectiveRefundChance!: number; // (1 + totalChance) * (1 + totalChance^2)
 
   // Additional mana sources
-  magicMushroomAverageExtraMana = 0; // 25 / 60 * (4 - spellWizLevel)
-  voidArmorBonusMana = 0; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
+  magicMushroomBonusManaPerSecond = 0; // 25 / 60 * (4 - spellWizLevel)
+  voidArmorBonusManaPerSecond = 0; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
+  manaDrainSpellCostPerSecond = 0; // 11 / 60 assuming casting one mana drain spell every minute
   totalAverageBonusMana!: number; // sum of the above
 
   // 1 / (totalManaTickInterval * totalBonusChance * totalEffectiveRefundChance)
@@ -183,7 +184,7 @@ export class ManaCalculator implements ManaCalculation {
       BuffType.MagicMushroomWizardry
     );
     if (magicMushroomBuffLevel)
-      this.magicMushroomAverageExtraMana =
+      this.magicMushroomBonusManaPerSecond =
         (25 / 60) * (4 - magicMushroomBuffLevel);
 
     const voidArmor = CalcUtils.getAspectLevel(
@@ -193,9 +194,16 @@ export class ManaCalculator implements ManaCalculation {
     );
     const maxMana = tmpl.stats.int;
     if (voidArmor)
-      this.voidArmorBonusMana = (maxMana * (0.16 + 0.02 * voidArmor)) / 60;
+      this.voidArmorBonusManaPerSecond = (maxMana * (0.16 + 0.02 * voidArmor)) / 60;
+
+    const manaDrainBuff = CalcUtils.getBuffValue(
+      tmpl,
+      BuffType.ManaDrainWizardry
+    );
+    if (manaDrainBuff && manaDrainBuff > 0) this.manaDrainSpellCostPerSecond = 11 / 60;
+
     this.totalAverageBonusMana =
-      this.magicMushroomAverageExtraMana + this.voidArmorBonusMana;
+      this.magicMushroomBonusManaPerSecond + this.voidArmorBonusManaPerSecond - this.manaDrainSpellCostPerSecond;
   }
 
   calculateTotalEffectiveMana(tmpl: TemplateBuilderState) {

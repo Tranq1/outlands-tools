@@ -9,6 +9,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const MODULES = [
   MatButtonModule,
@@ -20,7 +21,8 @@ const MODULES = [
   NgxMatSelectSearchModule,
   MatDividerModule,
   MatIconModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatCheckboxModule,
 ];
 
 @NgModule({

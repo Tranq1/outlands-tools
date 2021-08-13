@@ -4,7 +4,8 @@
     <mat-select formControlName="buffType"
                 placeholder="Pick a buff...">
       <mat-option>
-        <ngx-mat-select-search [formControl]="filterControl"></ngx-mat-select-search>
+        <ngx-mat-select-search [formControl]="filterControl"
+                               placeholderLabel="Search..."></ngx-mat-select-search>
       </mat-option>
       <mat-option *ngFor="let option of pickableBuffs$ | async"
                   [value]="option.type">{{option.display}}</mat-option>
