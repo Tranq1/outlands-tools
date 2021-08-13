@@ -2,13 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import {
   DamageTier,
   EquipmentType,
   MagicTier,
   MaterialTier,
   PowerType,
+  ProtectionTier,
   SlayerTier,
 } from 'src/app/interfaces/equipment';
 import { SubSink } from 'subsink';
@@ -61,29 +62,47 @@ export class EquipmentPickerComponent implements OnInit, OnDestroy {
     value,
   }));
   readonly slayerTiers = Object.entries(SlayerTier)
-  .filter(([key, value]) => typeof value === 'number')
-  .map(([key, value]) => ({
-    display: key,
-    value,
-  }));
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([key, value]) => ({
+      display: key,
+      value,
+    }));
   readonly magicTiers = Object.entries(MagicTier)
-  .filter(([key, value]) => typeof value === 'number')
-  .map(([key, value]) => ({
-    display: key,
-    value,
-  }));
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([key, value]) => ({
+      display: key,
+      value,
+    }));
   readonly damageTiers = Object.entries(DamageTier)
-  .filter(([key, value]) => typeof value === 'number')
-  .map(([key, value]) => ({
-    display: key,
-    value,
-  }));
+    .filter(([key, value]) => typeof value === 'number')
+    .map(([key, value]) => ({
+      display: key,
+      value,
+    }));
 
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    console.log(this.materialTiers);
-    this.subsink.add(this.pickedEquipmentType$.subscribe(console.log));
+    this.subsink.add(
+      this.addEquipmentForm
+        .get('equipmentType')!
+        .valueChanges.pipe(distinctUntilChanged())
+        .subscribe(() => this.addEquipmentForm.patchValue({ powerType: null })),
+      this.addEquipmentForm
+        .get('powerType')!
+        .valueChanges.pipe(distinctUntilChanged())
+        .subscribe(() =>
+          this.addEquipmentForm.patchValue({
+            materialTier: MaterialTier.Regular,
+            isExceptional: false,
+            slayerTier: SlayerTier.None,
+            damageTier: DamageTier.Regular,
+            artistryTier: MagicTier.Regular,
+            potencyTier: MagicTier.Regular,
+            accuracyTier: MagicTier.Regular,
+          })
+        )
+    );
   }
 
   ngOnDestroy(): void {
@@ -101,6 +120,7 @@ const ADD_EQUIPMENT_DEFAULT: AddEquipmentFormData = {
   artistryTier: MagicTier.Regular,
   potencyTier: MagicTier.Regular,
   accuracyTier: MagicTier.Regular,
+  protectionTier: ProtectionTier.Regular
 };
 
 interface AddEquipmentFormData {
@@ -113,4 +133,5 @@ interface AddEquipmentFormData {
   artistryTier: MagicTier | null;
   potencyTier: MagicTier | null;
   accuracyTier: MagicTier | null;
+  protectionTier: ProtectionTier | null;
 }

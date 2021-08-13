@@ -29,6 +29,15 @@ export enum DamageTier {
   Vanquishing = 5,
 }
 
+export enum ProtectionTier {
+  Regular = 0,
+  Defense = 1,
+  Guarding = 2,
+  Hardening = 3,
+  Fortification = 4,
+  Invulnerability = 5,
+}
+
 export enum PowerType {
   Regular = 'regular',
   Magic = 'magic',
@@ -64,7 +73,7 @@ export interface Weapon extends BaseEquipment {
 }
 
 export interface Armor extends BaseEquipment {
-  protectionTier: MagicTier;
+  protectionTier: ProtectionTier;
 }
 
 export interface Spellbook extends BaseEquipment {
