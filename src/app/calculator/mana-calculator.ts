@@ -67,34 +67,34 @@ export const MANA_CALCULATION_DEFAULT: ManaCalculation = {
 export class ManaCalculator implements ManaCalculation {
   // Mana Regen Tick rate
   baseManaRegTickInterval: number = 2; // 2
-  meditationTickRateFactor!: number; // 1 * meditation / 100
-  airAspectArmorTickRateFactor!: number; // 0.05 + level * 0.015
-  masteryChainMeditationRateFactor!: number; // up to 0.3
-  totalManaTickInterval!: number; // base - meditation - airAspect - masteryChain
+  meditationTickRateFactor: number = 0; // 1 * meditation / 100
+  airAspectArmorTickRateFactor: number = 0; // 0.05 + level * 0.015
+  masteryChainMeditationRateFactor: number = 0; // up to 0.3
+  totalManaTickInterval: number = 0; // base - meditation - airAspect - masteryChain
 
   // Bonus Regen per Tick
-  baseFoodBonusChance!: number; // 0.05 * foodTier
-  tasteIdAdditionalBonusChance!: number; // 0.25 * tasteId / 100
-  totalFoodBonusChance!: number; // baseFoodBonusChance + tasteIdAdditionalBonusChance
+  baseFoodBonusChance: number = 0; // 0.05 * foodTier
+  tasteIdAdditionalBonusChance: number = 0; // 0.25 * tasteId / 100
+  totalFoodBonusChance: number = 0; // baseFoodBonusChance + tasteIdAdditionalBonusChance
   materialSpellbookBonusTickChance: number = 0; // matLevel * 0.05 + (0.1 * exceptional)
-  totalBonusChance!: number; // sum of the above
+  totalBonusChance: number = 0; // sum of the above
 
   // Mana refund chance
-  aspectManaRefundChance!: number; // 0.015 * aspectSpellbookLevel
+  aspectManaRefundChance: number = 0; // 0.015 * aspectSpellbookLevel
   manaDrainBonusRefundChance: number = 0; // 0.05 + 0.05 * manaDrainLevel
-  spellbookBonusRefundChance!: number; // 0.05 * spellbookRefundLevel
-  totalBaseRefundChance!: number; // aspectChance + manaDrainChance + spellbookBonusChance
-  totalEffectiveRefundChance!: number; // (1 + totalChance) * (1 + totalChance^2)
+  spellbookBonusRefundChance: number = 0; // 0.05 * spellbookRefundLevel
+  totalBaseRefundChance: number = 0; // aspectChance + manaDrainChance + spellbookBonusChance
+  totalEffectiveRefundChance: number = 0; // (1 + totalChance) * (1 + totalChance^2)
 
   // Additional mana sources
   magicMushroomBonusManaPerSecond = 0; // 25 / 60 * (4 - spellWizLevel)
   voidArmorBonusManaPerSecond = 0; // maxMana * (0.16 + 0.02 * aspectLevel) / 60
   manaDrainSpellCostPerSecond = 0; // 11 / 60 assuming casting one mana drain spell every minute
-  totalAverageBonusMana!: number; // sum of the above
+  totalAverageBonusMana: number = 0; // sum of the above
 
   // 1 / (totalManaTickInterval * totalBonusChance * totalEffectiveRefundChance)
   // + totalAverageBonusMana * totalEffectiveRefundChance
-  totalEffectiveMana!: number;
+  totalEffectiveMana: number = 0;
 
   constructor(tmpl: TemplateBuilderState) {
     this.calculate(tmpl);
@@ -114,12 +114,15 @@ export class ManaCalculator implements ManaCalculation {
     this.meditationTickRateFactor = mediSkill / 100;
 
     const airArmorLvl =
-      CalcUtils.getAspectLevel(tmpl, AspectSlot.Spellbook, AspectType.Air) ?? 0;
+      CalcUtils.getAspectLevel(tmpl, AspectSlot.Armor, AspectType.Air) ?? 0;
     this.airAspectArmorTickRateFactor =
       airArmorLvl === 0 ? 0 : 0.05 + airArmorLvl * 0.015;
 
     this.masteryChainMeditationRateFactor =
-      CalcUtils.getMasteryChainValue(tmpl, MasteryType.MeditationRate) ?? 0;
+      (CalcUtils.getMasteryChainValue(tmpl, MasteryType.MeditationRate) ?? 0) /
+      100;
+
+    console.log(this.masteryChainMeditationRateFactor);
 
     this.totalManaTickInterval =
       this.baseManaRegTickInterval -
@@ -194,23 +197,27 @@ export class ManaCalculator implements ManaCalculation {
     );
     const maxMana = tmpl.stats.int;
     if (voidArmor)
-      this.voidArmorBonusManaPerSecond = (maxMana * (0.16 + 0.02 * voidArmor)) / 60;
+      this.voidArmorBonusManaPerSecond =
+        (maxMana * (0.16 + 0.02 * voidArmor)) / 60;
 
     const manaDrainBuff = CalcUtils.getBuffValue(
       tmpl,
       BuffType.ManaDrainWizardry
     );
-    if (manaDrainBuff && manaDrainBuff > 0) this.manaDrainSpellCostPerSecond = 11 / 60;
+    if (manaDrainBuff && manaDrainBuff > 0)
+      this.manaDrainSpellCostPerSecond = 11 / 60;
 
     this.totalAverageBonusMana =
-      this.magicMushroomBonusManaPerSecond + this.voidArmorBonusManaPerSecond - this.manaDrainSpellCostPerSecond;
+      this.magicMushroomBonusManaPerSecond +
+      this.voidArmorBonusManaPerSecond -
+      this.manaDrainSpellCostPerSecond;
   }
 
   calculateTotalEffectiveMana(tmpl: TemplateBuilderState) {
     this.totalEffectiveMana =
       1 /
         (this.totalManaTickInterval *
-          this.totalBonusChance *
+          (1 + this.totalBonusChance) *
           this.totalEffectiveRefundChance) +
       this.totalAverageBonusMana * this.totalEffectiveRefundChance;
   }

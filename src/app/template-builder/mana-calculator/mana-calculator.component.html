@@ -1,0 +1,11 @@
+<ng-container *ngIf="manaCalculation$ | async as calculation">
+
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Total time between mana ticks</mat-panel-title>
+        <mat-panel-description>{{calculation.totalManaTickInterval|number:'1.0-2'}}s</mat-panel-description>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-container>

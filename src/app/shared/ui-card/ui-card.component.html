@@ -3,8 +3,9 @@
     <mat-card-title-group>
       <mat-card-title>{{title}}</mat-card-title>
       <div>
-        <button mat-icon-button
-                matTooltip="Reset">
+        <button *ngIf="showReset"
+                mat-icon-button
+                matTooltip="Reset card">
           <mat-icon>restart_alt</mat-icon>
         </button>
         <button *ngIf="showMinimize"

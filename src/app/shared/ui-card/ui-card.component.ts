@@ -12,6 +12,9 @@ export class UiCardComponent implements OnInit {
   @Input()
   showMinimize: boolean = true;
 
+  @Input()
+  showReset: boolean = true;
+
   constructor() {}
 
   ngOnInit(): void {}

@@ -23,6 +23,6 @@ export const reducer = createReducer(
   )
 );
 
-export const selectCalculationState = createFeatureSelector(
+export const selectCalculationState = createFeatureSelector<CalculationState>(
   calculationFeatureKey
 );

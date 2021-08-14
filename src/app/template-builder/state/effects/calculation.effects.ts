@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
-import {
-  ManaCalculator,
-  MANA_CALCULATION_DEFAULT,
-} from 'src/app/calculator/mana-calculator';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { ManaCalculator } from 'src/app/calculator/mana-calculator';
 import { recalculationFinishedAction } from '../actions/calculation.actions';
 import {
   addMasteryAction,
