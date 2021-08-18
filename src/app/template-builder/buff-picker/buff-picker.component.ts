@@ -4,10 +4,12 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, startWith, tap } from 'rxjs/operators';
 import {
+  BuffInfo,
   Buffs,
   BuffSelectItem,
   BuffType,
   BUFF_LIST,
+  CharBuffValue,
   NumberRange,
 } from 'src/app/interfaces/buffs';
 import { SubSink } from 'subsink';
@@ -18,6 +20,10 @@ import {
 } from '../state/actions/template.actions';
 import { selectTemplateState } from '../state/reducers/template.reducer';
 
+interface PickedBuff extends CharBuffValue {
+  info: BuffInfo;
+}
+
 @Component({
   selector: 'app-buff-picker',
   templateUrl: './buff-picker.component.html',
@@ -27,7 +33,7 @@ export class BuffPickerComponent implements OnInit {
   readonly form = this.fb.group({ buffType: [], value: [] });
   readonly filterControl = this.fb.control('');
   readonly subsink = new SubSink();
-  readonly pickedBuffs$ = this.store.pipe(
+  readonly pickedBuffs$: Observable<PickedBuff[]> = this.store.pipe(
     select(selectTemplateState),
     select((s) => s.buffs),
     map((buffs) =>
@@ -35,7 +41,7 @@ export class BuffPickerComponent implements OnInit {
         ...b,
         info: Buffs.GetBuffInfo(b.type),
       }))
-    ),
+    )
   );
 
   readonly pickedBuffPossibleValues$ = this.form
@@ -71,6 +77,17 @@ export class BuffPickerComponent implements OnInit {
     )
   );
 
+  readonly canAdd$ = this.form.valueChanges.pipe(
+    map((newValue) => !!newValue.buffType)
+  );
+
+  public readonly trackByType = (
+    index: number,
+    obj: PickedBuff
+  ): string => {
+    return obj.type;
+  };
+
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
@@ -92,7 +109,7 @@ export class BuffPickerComponent implements OnInit {
     const newValue: { value: number; buffType: BuffType } = this.form.value;
     if (!newValue.buffType) return;
     this.store.dispatch(addBuffAction(newValue));
-    this.form.patchValue({ type: null }, { emitEvent: false });
+    this.form.patchValue({ buffType: null, value: null }, { emitEvent: false });
   }
 
   onRemoveClicked(buffType: BuffType) {

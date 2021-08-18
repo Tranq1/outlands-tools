@@ -72,20 +72,17 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
     skillName: string;
     newValue: number;
   }>();
-  readonly updateValue$ = this.updateSubject.pipe(debounceTime(1000));
+
+  public readonly trackByName = (index: number, obj: TemplateSkill): string => {
+    return obj.name;
+  };
 
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    this.subsink.add(
-      this.updateValue$.subscribe(({ skillName, newValue }) =>
-        this.store.dispatch(updateSkillAction({ skillName, newValue }))
-      )
-    );
   }
 
   ngOnDestroy(): void {
-    this.subsink.unsubscribe();
   }
 
   public onAddClicked(): void {
@@ -109,6 +106,6 @@ export class SkillPickerComponent implements OnInit, OnDestroy {
   }
 
   public updateSkillValue(skillName: string, newValue: number) {
-    this.updateSubject.next({ skillName, newValue });
+    this.store.dispatch(updateSkillAction({ skillName, newValue }));
   }
 }

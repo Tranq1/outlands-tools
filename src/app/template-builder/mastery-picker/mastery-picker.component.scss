@@ -11,3 +11,15 @@
 table {
   width: 100%;
 }
+
+th {
+  &.display {
+    width: 70%;
+  }
+  &.value {
+    width: 20%;
+  }
+  &.actions {
+    width: 10%;
+  }
+}

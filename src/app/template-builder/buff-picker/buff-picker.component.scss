@@ -1,5 +1,7 @@
 .picker-row {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .number-input {
@@ -8,4 +10,16 @@
 
 table {
   width: 100%;
+}
+
+th {
+  &.display {
+    width: 70%;
+  }
+  &.value {
+    width: 20%;
+  }
+  &.actions {
+    width: 10%;
+  }
 }

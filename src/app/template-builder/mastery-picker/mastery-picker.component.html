@@ -23,52 +23,31 @@
           [disabled]="!(canAdd$ | async)">Add</button>
 </div>
 
-<table mat-table
-       [dataSource]="pickedMasteryItems$">
-  <!-- Mastery Name Column -->
-  <ng-container matColumnDef="display">
-    <th mat-header-cell
-        *matHeaderCellDef> Mastery Name </th>
-    <td mat-cell
-        *matCellDef="let element"> {{element.display}} </td>
-  </ng-container>
-
-  <!-- Value Column -->
-  <ng-container matColumnDef="value">
-    <th mat-header-cell
-        *matHeaderCellDef> Value </th>
-    <td mat-cell
-        *matCellDef="let element"
-        [style.width]="'50px'">
-      <input matInput
-             type="number"
-             [ngModel]="element.value"
-             (ngModelChange)="updateMasteryValue(element.type, $event)">
-    </td>
-  </ng-container>
-
-  <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell
-        *matHeaderCellDef
-        [style.width]="'50px'"> Remove </th>
-    <td mat-cell
-        *matCellDef="let element">
-      <button mat-icon-button
-              (click)="onRemoveClicked(element.type)"
-              color="warn">
-        <mat-icon matTooltip="Remove mastery">delete</mat-icon>
-      </button>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row
-      *matHeaderRowDef="['display', 'value', 'actions']"></tr>
-  <tr mat-row
-      *matRowDef="let row; columns: ['display', 'value', 'actions'];"></tr>
-  <tr *matNoDataRow
-      class="mat-row">
-    <td colspan="3"
-        class="mat-cell"> No masteries added yet. Add a mastery from the list above. </td>
-  </tr>
+<table class="mat-table cdk-table">
+  <thead>
+    <tr class="mat-header-row cdk-header-row">
+      <th class="mat-header-cell cdk-header-cell display">Skill Name</th>
+      <th class="mat-header-cell cdk-header-cell value">Value</th>
+      <th class="mat-header-cell cdk-header-cell actions">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="mat-row cdk-row"
+        *ngFor="let pickedMasteryItem of (pickedMasteryItems$ | async); trackBy:trackByType">
+      <td class="mat-cell cdk-cell">{{pickedMasteryItem.display}}</td>
+      <td class="mat-cell cdk-cell">
+        <input matInput
+               type="number"
+               [ngModel]="pickedMasteryItem.value"
+               (ngModelChange)="updateMasteryValue(pickedMasteryItem.type, $event)">
+      </td>
+      <td class="mat-cell cdk-cell">
+        <button mat-icon-button
+                (click)="onRemoveClicked(pickedMasteryItem.type)"
+                color="warn">
+          <mat-icon matTooltip="Remove mastery">delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>

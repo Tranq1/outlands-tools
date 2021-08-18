@@ -9,12 +9,18 @@ import {
   Masteries,
   MasteryType,
 } from 'src/app/interfaces/mastery';
-import { combineLatest, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import {
   addMasteryAction,
   removeMasteryAction,
   updateMasteryAction,
 } from '../state/actions/template.actions';
+
+interface PickedMasteryEntry {
+  display: string;
+  type: MasteryType;
+  value: number;
+}
 
 @Component({
   selector: 'app-mastery-picker',
@@ -23,14 +29,14 @@ import {
 })
 export class MasteryPickerComponent implements OnInit, OnDestroy {
   readonly subsink = new SubSink();
-  readonly pickedMasteryItems$ = this.store.pipe(
+  readonly pickedMasteryItems$: Observable<PickedMasteryEntry[]> = this.store.pipe(
     select(selectTemplateState),
     select((s) => s.masteries),
     map((masteries) =>
       masteries.map((m) => ({
         ...m,
         display: Masteries.GetDisplayName(m.type),
-      }))
+      } as PickedMasteryEntry))
     )
   );
 
@@ -55,22 +61,16 @@ export class MasteryPickerComponent implements OnInit, OnDestroy {
   readonly canAdd$ = this.form.valueChanges.pipe(
     map((newValue) => newValue.type && newValue.value > 0)
   );
-  readonly updateSubject = new Subject<{ name: string; newValue: number }>();
-  readonly updateValue$ = this.updateSubject.pipe(debounceTime(1000));
+
+  public readonly trackByType = (index: number, obj: PickedMasteryEntry): string => {
+    return obj.type;
+  };
 
   constructor(private fb: FormBuilder, private store: Store) {}
 
-  ngOnInit(): void {
-    this.subsink.add(
-      this.updateValue$.subscribe(({ name, newValue }) =>
-        this.store.dispatch(updateMasteryAction({ name, newValue }))
-      )
-    );
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy(): void {
-    this.subsink.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   addClicked() {
     const newValue = this.form.value as CharMasteryEntry;
@@ -84,6 +84,6 @@ export class MasteryPickerComponent implements OnInit, OnDestroy {
   }
 
   updateMasteryValue(name: MasteryType, newValue: number) {
-    this.updateSubject.next({ name, newValue });
+    this.store.dispatch(updateMasteryAction({ name, newValue }));
   }
 }
