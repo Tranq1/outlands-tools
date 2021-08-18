@@ -4,6 +4,7 @@
   <mat-form-field class="select-field">
     <mat-select formControlName="type"
                 placeholder="Pick an aspect...">
+      <mat-option [value]="null">None</mat-option>
       <mat-option *ngFor="let aspect of aspectList"
                   [value]="aspect.value">{{aspect.display}}</mat-option>
     </mat-select>
@@ -19,11 +20,13 @@
 <mat-divider></mat-divider>
 <ng-container [formGroup]="aspectForm">
   <div class="form-field-group"
-       formGroupName="armor">
+       formGroupName="armor"
+       [appHighlightOn]="[aspectForm.get('armor.type')!.value + 'armor']">
     <div class="aspect-type">Armor</div>
     <mat-form-field class="select-field">
       <mat-select formControlName="type"
                   placeholder="Pick an aspect...">
+        <mat-option [value]="null">None</mat-option>
         <mat-option *ngFor="let aspect of aspectList"
                     [value]="aspect.value">{{aspect.display}}</mat-option>
       </mat-select>
@@ -37,11 +40,13 @@
     </mat-form-field>
   </div>
   <div class="form-field-group"
-       formGroupName="weapon">
+       formGroupName="weapon"
+       [appHighlightOn]="[aspectForm.get('weapon.type')!.value + 'weapon']">
     <div class="aspect-type">Weapon</div>
     <mat-form-field class="select-field">
       <mat-select formControlName="type"
                   placeholder="Pick an aspect...">
+        <mat-option [value]="null">None</mat-option>
         <mat-option *ngFor="let aspect of aspectList"
                     [value]="aspect.value">{{aspect.display}}</mat-option>
       </mat-select>
@@ -55,11 +60,13 @@
     </mat-form-field>
   </div>
   <div class="form-field-group"
-       formGroupName="spellbook">
+       formGroupName="spellbook"
+       [appHighlightOn]="[aspectForm.get('spellbook.type')!.value + 'spellbook']">
     <div class="aspect-type">Spellbook</div>
     <mat-form-field class="select-field">
       <mat-select formControlName="type"
                   placeholder="Pick an aspect...">
+        <mat-option [value]="null">None</mat-option>
         <mat-option *ngFor="let aspect of aspectList"
                     [value]="aspect.value">{{aspect.display}}</mat-option>
       </mat-select>

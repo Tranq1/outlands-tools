@@ -42,8 +42,8 @@ export class HighlightOnDirective implements OnInit, OnDestroy {
 
   highlight(shouldHighlight: boolean) {
     if (shouldHighlight) {
-      this.el.nativeElement.style.backgroundColor = '#ff7171';
-      this.el.nativeElement.style.boxShadow = '0 0 10px 8px #ff7171';
+      this.el.nativeElement.style.backgroundColor = 'rgba(255,71,71,0.35)';
+      this.el.nativeElement.style.boxShadow = '0 0 10px 8px rgba(255,71,71,0.35)';
     } else {
         this.el.nativeElement.style.backgroundColor = null;
         this.el.nativeElement.style.boxShadow = null;

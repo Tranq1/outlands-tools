@@ -33,7 +33,8 @@
   </thead>
   <tbody>
     <tr class="mat-row cdk-row"
-        *ngFor="let pickedMasteryItem of (pickedMasteryItems$ | async); trackBy:trackByType">
+        *ngFor="let pickedMasteryItem of (pickedMasteryItems$ | async); trackBy:trackByType"
+        [appHighlightOn]="[pickedMasteryItem.type]">
       <td class="mat-cell cdk-cell">{{pickedMasteryItem.display}}</td>
       <td class="mat-cell cdk-cell">
         <input matInput

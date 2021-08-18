@@ -4,7 +4,7 @@ export interface CalculationFormulaEntry {
     valueUnit?: string;
     defaultValue: number;
     isAffected?: boolean;
-    formula: string;
+    formula?: string;
     sources?: string[];
     classes?: string;
   }

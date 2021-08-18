@@ -14,13 +14,14 @@ import { selectTemplateState } from '../state/reducers/template.reducer';
 })
 export class AspectPickerComponent implements OnInit, OnDestroy {
   readonly subsink = new SubSink();
-  readonly allAspectsForm = this.fb.group({ type: [], level: 0 });
-  readonly allAspectsChanged$ = this.allAspectsForm.valueChanges;
+  readonly allAspectsForm = this.fb.group({ type: 'test', level: 0 });
+  readonly allAspectsChangedType$ = this.allAspectsForm.get('type')!.valueChanges;
+  readonly allAspectsChangedLevel$ = this.allAspectsForm.get('level')!.valueChanges;
 
   public readonly aspectForm = this.fb.group({
-    armor: this.fb.group({ type: [], level: 0 }),
-    weapon: this.fb.group({ type: [], level: 0 }),
-    spellbook: this.fb.group({ type: [], level: 0 }),
+    armor: this.fb.group({ type: null, level: 0 }),
+    weapon: this.fb.group({ type: null, level: 0 }),
+    spellbook: this.fb.group({ type: null, level: 0 }),
   });
 
   readonly pickedAspects$ = this.store.pipe(
@@ -45,16 +46,21 @@ export class AspectPickerComponent implements OnInit, OnDestroy {
       this.aspectChanged$.subscribe((aspects) =>
         this.store.dispatch(updateAspectsAction({ aspects }))
       ),
-      this.allAspectsChanged$.subscribe(
-        (v: { type: string; level: number }) => {
-          this.allAspectsForm.patchValue({ type: null }, { emitEvent: false });
-          this.aspectForm.patchValue({
-            armor: { type: v.type, level: v.level },
-            weapon: { type: v.type, level: v.level },
-            spellbook: { type: v.type, level: v.level },
-          });
-        }
-      )
+      this.allAspectsChangedType$?.subscribe((type: string) => {
+        this.allAspectsForm.patchValue({ type: 'test' }, { emitEvent: false });
+        this.aspectForm.patchValue({
+          armor: { type },
+          weapon: { type },
+          spellbook: { type },
+        });
+      }),
+      this.allAspectsChangedLevel$?.subscribe((level: number) => {
+        this.aspectForm.patchValue({
+          armor: { level },
+          weapon: { level },
+          spellbook: { level },
+        });
+      }),
     );
   }
 

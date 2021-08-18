@@ -96,7 +96,8 @@
     </thead>
     <tbody>
       <tr class="mat-row cdk-row"
-          *ngIf="equippedSpellbook$ | async as spellbook">
+          *ngIf="equippedSpellbook$ | async as spellbook"
+          [appHighlightOn]="['spellbook' + spellbook.powerType]">
         <td class="mat-cell cdk-cell">Spellbook</td>
         <td class="mat-cell cdk-cell">{{spellbook.powerType}}</td>
         <td class="mat-cell cdk-cell">

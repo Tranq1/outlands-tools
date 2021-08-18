@@ -45,7 +45,8 @@
   </thead>
   <tbody>
     <tr class="mat-row cdk-row"
-        *ngFor="let pickedBuff of (pickedBuffs$ | async); trackBy:trackByType">
+        *ngFor="let pickedBuff of (pickedBuffs$ | async); trackBy:trackByType"
+        [appHighlightOn]="[pickedBuff.type]">
       <td class="mat-cell cdk-cell">{{pickedBuff.info.display}}</td>
       <td class="mat-cell cdk-cell">
         <input matInput
@@ -63,4 +64,3 @@
     </tr>
   </tbody>
 </table>
-
