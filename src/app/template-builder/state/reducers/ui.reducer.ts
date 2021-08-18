@@ -1,9 +1,10 @@
-import { createFeatureSelector, createReducer } from '@ngrx/store';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { setHoverHighlight } from '../actions/ui.actions';
 
 export const uiFeatureKey = 'ui';
 
 export interface UIState {
-  hoverSource: string | null;
+  hoverSource: string[];
   showPickers: {
     skillStats: boolean;
     aspects: boolean;
@@ -21,7 +22,7 @@ export interface UIState {
 }
 
 export const initialState: UIState = {
-  hoverSource: null,
+  hoverSource: [],
   showPickers: {
     aspects: true,
     buffs: true,
@@ -38,6 +39,12 @@ export const initialState: UIState = {
   },
 };
 
-export const reducer = createReducer(initialState);
+export const reducer = createReducer(
+  initialState,
+  on(setHoverHighlight, (state, { highlightOn }) => ({
+    ...state,
+    hoverSource: highlightOn,
+  }))
+);
 
-export const selectUiState = createFeatureSelector(uiFeatureKey);
+export const selectUiState = createFeatureSelector<UIState>(uiFeatureKey);

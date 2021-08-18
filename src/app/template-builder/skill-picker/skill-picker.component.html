@@ -36,7 +36,8 @@
     <th mat-header-cell
         *matHeaderCellDef> Skill Name </th>
     <td mat-cell
-        *matCellDef="let element"> {{element.display}} </td>
+        *matCellDef="let element"
+        [appHighlightOn]="[element.name]"> {{element.display}} </td>
   </ng-container>
 
   <!-- Value Column -->

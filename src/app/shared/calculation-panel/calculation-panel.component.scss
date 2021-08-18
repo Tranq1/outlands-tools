@@ -1,0 +1,28 @@
+:host ::ng-deep .mat-expansion-panel-body {
+  padding: 0;
+}
+
+.expansion-panel-icon {
+  margin-right: 10px;
+}
+
+table {
+  width: 100%;
+
+  tr:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  td {
+    &.label {
+      width: 75%;
+    }
+    &.value {
+      width: 25%;
+      color: rgba(0, 0, 0, 0.54);
+    }
+    &.formula {
+      width: 30px;
+    }
+  }
+}

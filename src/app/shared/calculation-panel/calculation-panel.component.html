@@ -1,0 +1,29 @@
+<mat-accordion *ngIf="formulas$ | async as formulas"
+               [multi]="true">
+  <mat-expansion-panel *ngFor="let formula of formulas">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{formula.label}}</mat-panel-title>
+      <mat-panel-description *ngIf="formula.valueNumber">
+        {{formula.valueNumber|number:'1.0-2'}}{{formula.valueUnit}}
+      </mat-panel-description>
+      <mat-icon class="expansion-panel-icon"
+                [matTooltip]="formula.formula">info</mat-icon>
+    </mat-expansion-panel-header>
+    <mat-divider></mat-divider>
+    <table class="mat-table cdk-table">
+      <tbody>
+        <tr class="mat-row cdk-row"
+            *ngFor="let child of formula.children"
+            [appHoverHightlight]="child.sources ?? []">
+          <td class="mat-cell cdk-cell label">{{child.label}}</td>
+          <td class="mat-cell cdk-cell value">{{child.valueNumber|number:'1.0-2'}}{{child.valueUnit}}</td>
+          <td class="mat-cell cdk-cell formula">
+            <div>
+              <mat-icon [matTooltip]="child.formula">info</mat-icon>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

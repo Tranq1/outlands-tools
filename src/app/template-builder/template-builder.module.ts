@@ -14,6 +14,7 @@ import { BuffPickerComponent } from './buff-picker/buff-picker.component';
 import * as fromCalc from './state/reducers/calculation.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CalculationEffects } from './state/effects/calculation.effects';
+import * as fromUi from './state/reducers/ui.reducer';
 
 const EXPORTED_COMPONENTS = [
   SkillPickerComponent,
@@ -34,6 +35,7 @@ const EXPORTED_COMPONENTS = [
       fromTemplate.reducer
     ),
     StoreModule.forFeature(fromCalc.calculationFeatureKey, fromCalc.reducer),
+    StoreModule.forFeature(fromUi.uiFeatureKey, fromUi.reducer),
     EffectsModule.forFeature([CalculationEffects]),
     MaterialModule,
     SharedModule,
