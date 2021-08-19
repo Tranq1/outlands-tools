@@ -102,7 +102,9 @@
         <td class="mat-cell cdk-cell">{{spellbook.powerType}}</td>
         <td class="mat-cell cdk-cell">
           <button mat-icon-button
-                  color="warn">
+                  color="warn"
+                  matTooltip="Remove spellbook"
+                  (click)="removeEquipment(equipmentType.Spellbook)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

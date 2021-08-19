@@ -17,6 +17,7 @@ import { SubSink } from 'subsink';
 import {
   addSpellbookAction,
   addWeaponAction,
+  removeEquipmentAction,
 } from '../state/actions/template.actions';
 import { selectTemplateState } from '../state/reducers/template.reducer';
 
@@ -89,6 +90,8 @@ export class EquipmentPickerComponent implements OnInit, OnDestroy {
       value,
     }));
 
+    readonly equipmentType = EquipmentType;
+
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
@@ -153,6 +156,10 @@ export class EquipmentPickerComponent implements OnInit, OnDestroy {
         break;
     }
     this.addEquipmentForm.patchValue(ADD_EQUIPMENT_DEFAULT);
+  }
+
+  removeEquipment(type: EquipmentType) {
+    this.store.dispatch(removeEquipmentAction({ equipmentType: type }));
   }
 }
 

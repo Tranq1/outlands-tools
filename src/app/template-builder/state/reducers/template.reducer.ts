@@ -19,6 +19,7 @@ import {
   addSpellbookAction,
   addWeaponAction,
   removeBuffAction,
+  removeEquipmentAction,
   removeMasteryAction,
   removeSkillAction,
   updateAspectsAction,
@@ -27,6 +28,7 @@ import {
   updateSkillAction,
   updateStatsAction,
 } from '../actions/template.actions';
+import { omit } from 'lodash';
 
 export const templateFeatureKey = 'template';
 
@@ -106,6 +108,10 @@ export const reducer = createReducer(
     ...state,
     equipment: { ...state.equipment, weapon: newWeapon },
   })),
+  on(removeEquipmentAction, (state, { equipmentType }) => ({
+    ...state,
+    equipment: omit(state.equipment, equipmentType),
+  }))
 );
 
 export const selectTemplateState =

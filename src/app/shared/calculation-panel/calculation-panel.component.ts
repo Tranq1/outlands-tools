@@ -12,12 +12,9 @@ export class CalculationPanelComponent implements OnInit {
   private readonly formulaSubject = new ReplaySubject<CalculationFormula[]>(1);
   @Input()
   set formula(value: CalculationFormula[]) {
-    console.log('set', value);
     this.formulaSubject.next(value);
   }
-  readonly formulas$ = this.formulaSubject
-    .asObservable()
-    .pipe(tap(x => console.log(x)));
+  readonly formulas$ = this.formulaSubject.asObservable();
 
   constructor() {}
 

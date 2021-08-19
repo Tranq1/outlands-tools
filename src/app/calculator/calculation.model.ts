@@ -10,5 +10,5 @@ export interface CalculationFormulaEntry {
   }
   
   export interface CalculationFormula extends CalculationFormulaEntry {
-    children: CalculationFormulaEntry[];
+    children?: CalculationFormulaEntry[];
   }
