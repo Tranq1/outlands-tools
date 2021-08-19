@@ -21,7 +21,7 @@
 <ng-container [formGroup]="aspectForm">
   <div class="form-field-group"
        formGroupName="armor"
-       [appHighlightOn]="[aspectForm.get('armor.type')!.value + 'armor']">
+       [appHighlightOn]="[aspectForm.get('armor.type')!.value + 'armor', 'armor']">
     <div class="aspect-type">Armor</div>
     <mat-form-field class="select-field">
       <mat-select formControlName="type"
@@ -41,7 +41,7 @@
   </div>
   <div class="form-field-group"
        formGroupName="weapon"
-       [appHighlightOn]="[aspectForm.get('weapon.type')!.value + 'weapon']">
+       [appHighlightOn]="[aspectForm.get('weapon.type')!.value + 'weapon', 'weapon']">
     <div class="aspect-type">Weapon</div>
     <mat-form-field class="select-field">
       <mat-select formControlName="type"
@@ -61,7 +61,7 @@
   </div>
   <div class="form-field-group"
        formGroupName="spellbook"
-       [appHighlightOn]="[aspectForm.get('spellbook.type')!.value + 'spellbook']">
+       [appHighlightOn]="[aspectForm.get('spellbook.type')!.value + 'spellbook', 'spellbook']">
     <div class="aspect-type">Spellbook</div>
     <mat-form-field class="select-field">
       <mat-select formControlName="type"

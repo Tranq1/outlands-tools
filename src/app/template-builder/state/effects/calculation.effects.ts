@@ -5,11 +5,17 @@ import { map, withLatestFrom } from 'rxjs/operators';
 import { ManaCalculator } from 'src/app/calculator/mana-calculator';
 import { recalculationFinishedAction } from '../actions/calculation.actions';
 import {
+  addBuffAction,
   addMasteryAction,
   addSkillAction,
+  addSpellbookAction,
+  addWeaponAction,
+  removeBuffAction,
+  removeEquipmentAction,
   removeMasteryAction,
   removeSkillAction,
   updateAspectsAction,
+  updateBuffAction,
   updateMasteryAction,
   updateSkillAction,
   updateSkillValueAction,
@@ -34,7 +40,13 @@ export class CalculationEffects {
         updateAspectsAction,
         addMasteryAction,
         removeMasteryAction,
-        updateMasteryAction
+        updateMasteryAction,
+        addBuffAction,
+        updateBuffAction,
+        removeBuffAction,
+        addSpellbookAction,
+        addWeaponAction,
+        removeEquipmentAction
       ),
       withLatestFrom(this.store$.select(selectTemplateState)),
       map(([a, state]) =>

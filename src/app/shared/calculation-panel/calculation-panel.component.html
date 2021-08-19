@@ -3,7 +3,7 @@
   <mat-expansion-panel *ngFor="let formula of formulas">
     <mat-expansion-panel-header [appHoverHightlight]="formula.sources ?? []">
       <mat-panel-title>{{formula.label}}</mat-panel-title>
-      <mat-panel-description *ngIf="formula.valueNumber">
+      <mat-panel-description>
         {{formula.valueNumber|number:'1.0-2'}}{{formula.valueUnit}}
       </mat-panel-description>
       <mat-icon *ngIf="formula.formula"

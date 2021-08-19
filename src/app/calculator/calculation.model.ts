@@ -3,7 +3,7 @@ export interface CalculationFormulaEntry {
     valueNumber: number;
     valueUnit?: string;
     defaultValue: number;
-    isAffected?: boolean;
+    showAsAffected?: boolean;
     formula?: string;
     sources?: string[];
     classes?: string;

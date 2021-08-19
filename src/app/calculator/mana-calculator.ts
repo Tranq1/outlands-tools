@@ -171,14 +171,18 @@ export class ManaCalculator implements ManaCalculation {
       this.spellbookBonusRefundChance = spellbook.potencyTier * 0.05;
     }
 
-    this.totalBaseRefundChance =
+    this.totalBaseRefundChance = Math.min(
+      50,
       this.aspectManaRefundChance +
-      this.manaDrainBonusRefundChance +
-      this.spellbookBonusRefundChance;
+        this.manaDrainBonusRefundChance +
+        this.spellbookBonusRefundChance
+    );
 
     this.totalEffectiveRefundChance =
-      (1 + this.totalBaseRefundChance) *
-      (1 + Math.pow(this.totalBaseRefundChance, 2));
+      this.totalBaseRefundChance === 0
+        ? 0
+        : (1 + this.totalBaseRefundChance) *
+          (1 + Math.pow(this.totalBaseRefundChance, 2)) - 1;
   }
 
   calculateAdditionalManaSources(tmpl: TemplateBuilderState) {
