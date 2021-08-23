@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CalculationFormula } from 'src/app/calculator/calculation.model';
+import { CalculationPanel } from 'src/app/calculator/calculation-panel.model';
 import { Skill } from 'src/app/data/skills.enum';
 import { AspectSlot, AspectType } from 'src/app/interfaces/aspect';
 import { BuffType } from 'src/app/interfaces/buffs';
@@ -16,7 +16,7 @@ import { selectCalculationState } from '../state/reducers/calculation.reducer';
   styleUrls: ['./mana-calculator.component.scss'],
 })
 export class ManaCalculatorComponent implements OnInit {
-  readonly manaCalculationPanels$: Observable<CalculationFormula[]> =
+  readonly manaCalculationPanels$: Observable<CalculationPanel[]> =
     this.store.pipe(
       select(selectCalculationState),
       select((s) => s.manaCalculation),

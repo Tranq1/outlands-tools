@@ -1,4 +1,4 @@
-export interface CalculationFormulaEntry {
+export interface CalculationPanelEntry {
     label: string;
     valueNumber: number;
     valueUnit?: string;
@@ -9,6 +9,6 @@ export interface CalculationFormulaEntry {
     classes?: string;
   }
   
-  export interface CalculationFormula extends CalculationFormulaEntry {
-    children?: CalculationFormulaEntry[];
+  export interface CalculationPanel extends CalculationPanelEntry {
+    children?: CalculationPanelEntry[];
   }

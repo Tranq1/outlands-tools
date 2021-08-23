@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
-import { CalculationFormula } from 'src/app/calculator/calculation.model';
+import { CalculationPanel } from 'src/app/calculator/calculation-panel.model';
 
 @Component({
   selector: 'app-calculation-panel',
@@ -9,9 +9,9 @@ import { CalculationFormula } from 'src/app/calculator/calculation.model';
   styleUrls: ['./calculation-panel.component.scss'],
 })
 export class CalculationPanelComponent implements OnInit {
-  private readonly formulaSubject = new ReplaySubject<CalculationFormula[]>(1);
+  private readonly formulaSubject = new ReplaySubject<CalculationPanel[]>(1);
   @Input()
-  set formula(value: CalculationFormula[]) {
+  set formula(value: CalculationPanel[]) {
     this.formulaSubject.next(value);
   }
   readonly formulas$ = this.formulaSubject.asObservable();
