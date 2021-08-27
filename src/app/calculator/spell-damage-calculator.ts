@@ -2,6 +2,7 @@ import { Skill } from '../data/skills.enum';
 import { AspectSlot, AspectType } from '../interfaces/aspect';
 import { BuffType } from '../interfaces/buffs';
 import { PowerType } from '../interfaces/equipment';
+import { MasteryType } from '../interfaces/mastery';
 import { Spell, SpellInfo, SPELLS } from '../interfaces/spell';
 import { TemplateBuilderState } from '../template-builder/state/reducers/template.reducer';
 import { CalcUtils } from './calc-utils';
@@ -21,7 +22,9 @@ export interface SpellDamageCalculation {
 
   // Charged Spell Chance
   baseChargedSpellChance: number;
+  totalChargedSpellChance: number;
   baseChargedSpellMultiplier: number;
+  totalChargedSpellMultiplier: number;
   effectiveAdditionalChargedSpellDamage: number;
 
   // Effective spell damage increase
@@ -54,9 +57,11 @@ export const SPELL_DAMAGE_CALC_DEFAULT: SpellDamageCalculation = {
   spellbookAdditionalSpellDamage: 0,
 
   // Charged Spell Chance
-  baseChargedSpellChance: 0,
-  baseChargedSpellMultiplier: 0,
-  effectiveAdditionalChargedSpellDamage: 0,
+  baseChargedSpellChance: 0.1,
+  totalChargedSpellChance: 0.1,
+  baseChargedSpellMultiplier: 0.5,
+  totalChargedSpellMultiplier: 0.5,
+  effectiveAdditionalChargedSpellDamage: 0.05,
 
   // Effective spell damage increase
   effectiveSpellDamageIncrease: 0,
@@ -88,9 +93,11 @@ export class SpellDamageCalculator implements SpellDamageCalculation {
   spellbookAdditionalSpellDamage = 0;
 
   // Charged Spell Chance
-  baseChargedSpellChance = 0;
-  baseChargedSpellMultiplier = 0;
-  effectiveAdditionalChargedSpellDamage = 0;
+  baseChargedSpellChance = 0.1;
+  totalChargedSpellChance = 0.1;
+  baseChargedSpellMultiplier = 0.5;
+  totalChargedSpellMultiplier = 0.5;
+  effectiveAdditionalChargedSpellDamage = 0.05;
 
   // Effective spell damage increase
   effectiveSpellDamageIncrease = 0;
@@ -151,16 +158,23 @@ export class SpellDamageCalculator implements SpellDamageCalculation {
       this.currentSpell.spell === Spell.MindBlast && mindBlastWizardryBuffValue
         ? 0.1 + mindBlastWizardryBuffValue * 0.1
         : 0;
-    const spiritStoneBonusChance = CalcUtils.getBuffValue(
-      tmpl,
-      BuffType.ActiveSpellSpiritStone
-    ) ?? 0;
-    this.baseChargedSpellChance = 0.1 + mindBlastBonusCharge;
-    this.baseChargedSpellMultiplier = 0;
-    this.effectiveAdditionalChargedSpellDamage = 0;
+    const spiritStoneBonusChance =
+      CalcUtils.getBuffValue(tmpl, BuffType.ActiveSpellSpiritStone) ?? 0;
+    const chargedSpellMasteryBonusChance =
+      (CalcUtils.getMasteryChainValue(tmpl, MasteryType.SpellChargedChance) ??
+        0) / 100;
+    this.totalChargedSpellChance =
+      this.baseChargedSpellChance + mindBlastBonusCharge + spiritStoneBonusChance + chargedSpellMasteryBonusChance;
+    const chargedSpellMasteryBonusDamage =
+      (CalcUtils.getMasteryChainValue(tmpl, MasteryType.SpellChargedDamage) ??
+        0) / 100;
+    this.totalChargedSpellMultiplier = this.baseChargedSpellMultiplier + chargedSpellMasteryBonusDamage;
+    this.effectiveAdditionalChargedSpellDamage = this.totalChargedSpellChance * this.totalChargedSpellMultiplier;
   }
 
-  calculateEffectiveSpellDamageIncrease(tmpl: TemplateBuilderState) {}
+  calculateEffectiveSpellDamageIncrease(tmpl: TemplateBuilderState) {
+      
+  }
 
   calculateAdditionalDamageSources(tmpl: TemplateBuilderState) {}
 
